@@ -5,6 +5,12 @@ VisualStudioVersion = 17.14.37111.16 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenPilot.API", "InvenPilot.API.csproj", "{9511A9A1-76AE-48BA-B99C-B734086401A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenPilot.Domain", "..\InvenPilot.Domain\InvenPilot.Domain.csproj", "{DF502B5E-6DB4-4592-8F7C-F43F766BB224}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenPilot.Infrastructure", "..\InvenPilot.Infrastructure\InvenPilot.Infrastructure.csproj", "{1BAF70EB-9646-4B46-A1CA-22B0B528B035}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenPilot.Application", "..\InvenPilot.Application\InvenPilot.Application.csproj", "{56929391-174F-41C7-AE85-10079AA998F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{9511A9A1-76AE-48BA-B99C-B734086401A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9511A9A1-76AE-48BA-B99C-B734086401A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9511A9A1-76AE-48BA-B99C-B734086401A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF502B5E-6DB4-4592-8F7C-F43F766BB224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF502B5E-6DB4-4592-8F7C-F43F766BB224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF502B5E-6DB4-4592-8F7C-F43F766BB224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF502B5E-6DB4-4592-8F7C-F43F766BB224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BAF70EB-9646-4B46-A1CA-22B0B528B035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BAF70EB-9646-4B46-A1CA-22B0B528B035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BAF70EB-9646-4B46-A1CA-22B0B528B035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BAF70EB-9646-4B46-A1CA-22B0B528B035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56929391-174F-41C7-AE85-10079AA998F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56929391-174F-41C7-AE85-10079AA998F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56929391-174F-41C7-AE85-10079AA998F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56929391-174F-41C7-AE85-10079AA998F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
