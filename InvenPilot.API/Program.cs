@@ -1,5 +1,10 @@
 
+using InvenPilot.Application.Features.Authentication.Commands;
+using InvenPilot.Application.Interfaces;
+using InvenPilot.Domain.Entities;
 using InvenPilot.Infrastructure.Data;
+using InvenPilot.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace InvenPilot.API
@@ -15,6 +20,17 @@ namespace InvenPilot.API
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("CS"));
             });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<InvenPilotContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssembly(typeof(RegisterUserHandler).Assembly);
+            });
+
+            builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

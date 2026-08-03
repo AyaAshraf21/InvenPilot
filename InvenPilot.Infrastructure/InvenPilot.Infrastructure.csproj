@@ -20,8 +20,4 @@
     <ProjectReference Include="..\InvenPilot.Domain\InvenPilot.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>
