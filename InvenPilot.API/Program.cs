@@ -1,4 +1,7 @@
 
+using InvenPilot.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace InvenPilot.API
 {
     public class Program
@@ -8,6 +11,10 @@ namespace InvenPilot.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDbContext<InvenPilotContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CS"));
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
