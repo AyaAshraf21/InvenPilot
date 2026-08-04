@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Interfaces;
+﻿using InvenPilot.Application.Exceptions;
+using InvenPilot.Application.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -24,12 +25,12 @@ namespace InvenPilot.Application.Features.Authentication.Commands
             var user =  await authenticationRepository.GetUserByEmailAsync(request.loginDTO.Email);
             if (user == null)
             {
-                throw new Exception("This User not found");
+                throw new InvalidCredentialsException();
             }
             bool check = await authenticationRepository.CheckPasswordAsync(user, request.loginDTO.Password);
             if (!check)
             {
-                throw new Exception("Invalid Email or Password , please try again");
+                throw new InvalidCredentialsException();
             }
             return await jwtRepository.GenerateToken(user);
         }

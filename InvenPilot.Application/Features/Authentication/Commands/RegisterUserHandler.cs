@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Authentication.DTO;
+﻿using InvenPilot.Application.Exceptions;
+using InvenPilot.Application.Features.Authentication.DTO;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
 using MediatR;
@@ -28,6 +29,11 @@ namespace InvenPilot.Application.Features.Authentication.Commands
                 UserName = request.registerDto.Name,
                 Email = request.registerDto.Email
             };
+            var foundUser = await authenticationRepository.GetUserByEmailAsync(user.Email);
+            if(foundUser != null)
+            {
+                throw new EmailAlreadyExistsException();
+            }
             IdentityResult identityResult =  await authenticationRepository.RegisterAsync(user, request.registerDto.Password);
             if (!identityResult.Succeeded)
             {

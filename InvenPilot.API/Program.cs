@@ -1,5 +1,6 @@
 
 using FluentValidation;
+using InvenPilot.API.Middleware;
 using InvenPilot.Application.Behaviors;
 using InvenPilot.Application.Features.Authentication.Commands;
 using InvenPilot.Application.Features.Authentication.Validators;
@@ -59,6 +60,10 @@ namespace InvenPilot.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
