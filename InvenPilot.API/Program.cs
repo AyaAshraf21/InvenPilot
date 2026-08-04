@@ -1,9 +1,13 @@
 
+using FluentValidation;
+using InvenPilot.Application.Behaviors;
 using InvenPilot.Application.Features.Authentication.Commands;
+using InvenPilot.Application.Features.Authentication.Validators;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
 using InvenPilot.Infrastructure.Data;
 using InvenPilot.Infrastructure.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +39,12 @@ namespace InvenPilot.API
 
             builder.Services.Configure<JwtSettings>(
                 builder.Configuration.GetSection("Jwt"));
+
+            builder.Services.AddValidatorsFromAssemblyContaining<RegisterValidator>();
+
+            builder.Services.AddTransient(
+                typeof(IPipelineBehavior<,>),
+                typeof(ValidationBehavior<,>));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
