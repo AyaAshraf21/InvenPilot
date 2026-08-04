@@ -22,5 +22,15 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await userManager.CreateAsync(user, password);
         }
+
+        public async Task<bool> CheckPasswordAsync(ApplicationUser user , string password)
+        {
+            return await userManager.CheckPasswordAsync(user , password);
+        }
+
+        public async Task<ApplicationUser> GetUserByEmailAsync(string email)
+        {
+            return await userManager.FindByEmailAsync(email);
+        }
     }
 }

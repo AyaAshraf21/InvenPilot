@@ -11,5 +11,7 @@ namespace InvenPilot.Application.Interfaces
     public interface IAuthenticationRepository
     {
         public Task<IdentityResult> RegisterAsync(ApplicationUser user , string password);
+        public Task<bool> CheckPasswordAsync(ApplicationUser user , string password);
+        public Task<ApplicationUser> GetUserByEmailAsync(string email);
     }
 }

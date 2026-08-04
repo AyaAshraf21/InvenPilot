@@ -23,5 +23,12 @@ namespace InvenPilot.API.Controllers
             await mediator.Send(new RegisterUserCommand(registerDTO));
             return Ok();
         }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        {
+            var token = await mediator.Send(new  LoginUserCommand(loginDTO));
+            return Ok(token);
+        }
     }
 }

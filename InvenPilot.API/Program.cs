@@ -31,6 +31,10 @@ namespace InvenPilot.API
             });
 
             builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            builder.Services.AddScoped<IJwtRepository, JwtRepository>();
+
+            builder.Services.Configure<JwtSettings>(
+                builder.Configuration.GetSection("Jwt"));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
