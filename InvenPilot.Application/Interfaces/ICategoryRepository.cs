@@ -15,5 +15,6 @@ namespace InvenPilot.Application.Interfaces
         public Task<List<Category>> GetAllCategoriesAsync();
         public Task<Category> GetCategoryByIdAsync(int id);
         public Task UpdateCategory(Category category);
+        public Task DeleteCategoryAsync(Category category);
     }
 }

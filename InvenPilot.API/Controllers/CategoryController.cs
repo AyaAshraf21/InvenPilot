@@ -1,4 +1,5 @@
 ﻿using InvenPilot.Application.Features.Categories.Commands.CreateCategory;
+using InvenPilot.Application.Features.Categories.Commands.DeleteCategory;
 using InvenPilot.Application.Features.Categories.Commands.UpdateCategory;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Features.Categories.Queries.GetAllCategories;
@@ -53,6 +54,16 @@ namespace InvenPilot.API.Controllers
             {
                 Message = "Category Updated Successfully",
                 Data = updatedCategory
+            });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            await mediator.Send(new DeleteCategoryQuery(id));
+            return Ok(new
+            {
+                Message = "Category Deleted Successfully"
             });
         }
     }

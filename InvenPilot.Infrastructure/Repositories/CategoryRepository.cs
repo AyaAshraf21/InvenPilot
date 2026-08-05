@@ -49,5 +49,11 @@ namespace InvenPilot.Infrastructure.Repositories
             context.Categories.Update(category);
             await context.SaveChangesAsync();
         }
+
+        public async Task DeleteCategoryAsync(Category category)
+        {
+            context.Categories.Remove(category);
+            await context.SaveChangesAsync();
+        }
     }
 }
