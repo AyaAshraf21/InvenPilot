@@ -20,7 +20,7 @@ namespace InvenPilot.Application.Features.Categories.Queries.GetAllCategories
 
         public async Task<List<CategoryResponseDTO>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var categories = await categoryRepository.GetAllCategories();
+            var categories = await categoryRepository.GetAllCategoriesAsync();
             return categories.Select(c => new CategoryResponseDTO
             {
                 ID = c.ID,

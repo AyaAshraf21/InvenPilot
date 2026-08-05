@@ -1,6 +1,7 @@
 ﻿using InvenPilot.Application.Features.Categories.Commands.CreateCategory;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Features.Categories.Queries.GetAllCategories;
+using InvenPilot.Application.Features.Categories.Queries.GetCategoryById;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,5 +37,11 @@ namespace InvenPilot.API.Controllers
             return Ok(categories);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCategoryById(int id)
+        {
+            var category = await mediator.Send(new GetCategoryByIdQuery(id));
+            return Ok(category);
+        }
     }
 }

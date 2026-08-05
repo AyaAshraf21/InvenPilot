@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,10 +30,18 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await context.Categories.AnyAsync(s => s.Name == categoryName);
         }
-        public async Task<List<Category>> GetAllCategories()
+        public async Task<bool> isCategoryExistByIdAsync(int id)
+        {
+            return await context.Categories.AnyAsync(s => s.ID == id);
+        }
+        public async Task<List<Category>> GetAllCategoriesAsync()
         {
             return await context.Categories.ToListAsync();
         }
 
+        public async Task<Category> GetCategoryByIdAsync(int id)
+        {
+            return await context.Categories.FirstOrDefaultAsync(c => c.ID == id);
+        }
     }
 }
