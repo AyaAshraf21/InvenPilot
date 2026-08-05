@@ -1,4 +1,5 @@
 ﻿using InvenPilot.Application.Features.Categories.Commands.CreateCategory;
+using InvenPilot.Application.Features.Categories.Commands.UpdateCategory;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Features.Categories.Queries.GetAllCategories;
 using InvenPilot.Application.Features.Categories.Queries.GetCategoryById;
@@ -42,6 +43,17 @@ namespace InvenPilot.API.Controllers
         {
             var category = await mediator.Send(new GetCategoryByIdQuery(id));
             return Ok(category);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory([FromBody] CategoryDTO categoryDTO, int id)
+        {
+            var updatedCategory = await mediator.Send(new UpdateCategoryQuery(categoryDTO, id));
+            return Ok(new
+            {
+                Message = "Category Updated Successfully",
+                Data = updatedCategory
+            });
         }
     }
 }

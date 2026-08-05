@@ -43,5 +43,11 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await context.Categories.FirstOrDefaultAsync(c => c.ID == id);
         }
+
+        public async Task UpdateCategory(Category category)
+        {
+            context.Categories.Update(category);
+            await context.SaveChangesAsync();
+        }
     }
 }
