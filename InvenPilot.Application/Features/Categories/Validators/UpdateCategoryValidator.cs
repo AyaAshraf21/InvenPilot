@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Features.Categories.Validators
 {
-    public class UpdateCategoryValidator : AbstractValidator<UpdateCategoryQuery>
+    public class UpdateCategoryValidator : AbstractValidator<UpdateCategoryCommand>
     {
         public UpdateCategoryValidator()
         {

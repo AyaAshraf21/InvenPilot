@@ -15,7 +15,7 @@ namespace InvenPilot.Domain.Entities
         public int? SupplierID { get; set; }
         public Supplier? Supplier { get; set; }
         public int? CustomerID { get; set; }
-        public Customer? customer { get; set; }
-        public List<OrderItem> orderItems { get; set; } = new List<OrderItem>();
+        public Customer? Customer { get; set; }
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

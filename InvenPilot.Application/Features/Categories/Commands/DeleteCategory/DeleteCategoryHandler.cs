@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Features.Categories.Commands.DeleteCategory
 {
-    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryQuery>
+    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand>
     {
         private readonly ICategoryRepository categoryRepository;
 
@@ -18,7 +18,7 @@ namespace InvenPilot.Application.Features.Categories.Commands.DeleteCategory
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task Handle(DeleteCategoryQuery request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = await categoryRepository.GetCategoryByIdAsync(request.id);
             if (category == null)

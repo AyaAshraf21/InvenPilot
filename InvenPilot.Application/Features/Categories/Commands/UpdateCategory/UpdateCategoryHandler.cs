@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Features.Categories.Commands.UpdateCategory
 {
-    public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryQuery, CategoryResponseDTO>
+    public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, CategoryResponseDTO>
     {
         private readonly ICategoryRepository categoryRepository;
 
@@ -20,7 +20,7 @@ namespace InvenPilot.Application.Features.Categories.Commands.UpdateCategory
             this.categoryRepository = categoryRepository;
         }
 
-        public async Task<CategoryResponseDTO> Handle(UpdateCategoryQuery request, CancellationToken cancellationToken)
+        public async Task<CategoryResponseDTO> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             var category = await categoryRepository.GetCategoryByIdAsync(request.id);
             if (category == null)

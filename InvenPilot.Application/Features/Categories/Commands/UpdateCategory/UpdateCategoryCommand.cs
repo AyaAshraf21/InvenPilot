@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Features.Categories.Commands.UpdateCategory
 {
-    public record UpdateCategoryQuery(CategoryDTO categoryDTO ,int id) : IRequest<CategoryResponseDTO>;
+    public record UpdateCategoryCommand(CategoryDTO categoryDTO ,int id) : IRequest<CategoryResponseDTO>;
 }

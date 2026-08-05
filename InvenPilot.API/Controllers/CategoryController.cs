@@ -49,7 +49,7 @@ namespace InvenPilot.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory([FromBody] CategoryDTO categoryDTO, int id)
         {
-            var updatedCategory = await mediator.Send(new UpdateCategoryQuery(categoryDTO, id));
+            var updatedCategory = await mediator.Send(new UpdateCategoryCommand(categoryDTO, id));
             return Ok(new
             {
                 Message = "Category Updated Successfully",
@@ -60,7 +60,7 @@ namespace InvenPilot.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            await mediator.Send(new DeleteCategoryQuery(id));
+            await mediator.Send(new DeleteCategoryCommand(id));
             return Ok(new
             {
                 Message = "Category Deleted Successfully"

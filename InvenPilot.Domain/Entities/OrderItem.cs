@@ -13,7 +13,7 @@ namespace InvenPilot.Domain.Entities
         public int ProductID { get; set; }
         public Product Product { get; set; } = null;
         public int OrderID { get; set; }
-        public Order order { get; set; } = null;
+        public Order Order { get; set; } = null;
 
     }
 }

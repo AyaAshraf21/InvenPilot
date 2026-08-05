@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Features.Categories.Commands.DeleteCategory
 {
-    public record DeleteCategoryQuery(int id): IRequest ;
+    public record DeleteCategoryCommand(int id): IRequest ;
 }
