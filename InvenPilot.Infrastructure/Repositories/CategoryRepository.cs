@@ -24,10 +24,15 @@ namespace InvenPilot.Infrastructure.Repositories
             await context.Categories.AddAsync(category);
             await context.SaveChangesAsync();
         }
-
+        
         public async Task<bool> isCategoryExistByNameAsync(string categoryName)
         {
             return await context.Categories.AnyAsync(s => s.Name == categoryName);
         }
+        public async Task<List<Category>> GetAllCategories()
+        {
+            return await context.Categories.ToListAsync();
+        }
+
     }
 }

@@ -10,7 +10,5 @@ namespace InvenPilot.Application.Features.Categories.DTO
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Message { get; set; }
-
     }
 }

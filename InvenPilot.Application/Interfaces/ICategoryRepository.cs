@@ -11,5 +11,6 @@ namespace InvenPilot.Application.Interfaces
     {
         public Task CreateCategoryAsync(Category category);
         public Task<bool> isCategoryExistByNameAsync(string categoryName);
+        public Task<List<Category>> GetAllCategories();
     }
 }

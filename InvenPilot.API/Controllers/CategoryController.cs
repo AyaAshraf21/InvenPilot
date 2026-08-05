@@ -1,5 +1,6 @@
 ﻿using InvenPilot.Application.Features.Categories.Commands.CreateCategory;
 using InvenPilot.Application.Features.Categories.DTO;
+using InvenPilot.Application.Features.Categories.Queries.GetAllCategories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,18 @@ namespace InvenPilot.API.Controllers
         public async Task<IActionResult> CreateCategory([FromBody]CategoryDTO categoryDTO)
         {
             var categoryResponseDTO = await mediator.Send(new CreateCategoryCommand(categoryDTO));
-            return Ok(categoryResponseDTO);
+            return Ok(new
+            {
+                Message = "Category created successfully.",
+                Data = categoryResponseDTO
+            });
+        }
+
+        [HttpGet("GetAllCategories")]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            var categories = await mediator.Send(new GetAllCategoriesQuery());
+            return Ok(categories);
         }
 
     }

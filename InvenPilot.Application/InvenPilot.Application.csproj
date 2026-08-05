@@ -15,8 +15,4 @@
     <PackageReference Include="MediatR" Version="14.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Categories\Queries\" />
-  </ItemGroup>
-
 </Project>

@@ -38,7 +38,6 @@ namespace InvenPilot.Application.Features.Categories.Commands.CreateCategory
             {
                 ID = category.ID,
                 Name = category.Name,
-                Message = "Category Created Successfully"
             };
         }
     }
