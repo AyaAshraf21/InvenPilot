@@ -32,7 +32,7 @@ namespace InvenPilot.Application.Features.Authentication.Commands
             var foundUser = await authenticationRepository.GetUserByEmailAsync(user.Email);
             if(foundUser != null)
             {
-                throw new EmailAlreadyExistsException();
+                throw new AlreadyExistsException("Email");
             }
             IdentityResult identityResult =  await authenticationRepository.RegisterAsync(user, request.registerDto.Password);
             if (!identityResult.Succeeded)

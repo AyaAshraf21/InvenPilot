@@ -37,6 +37,7 @@ namespace InvenPilot.API
 
             builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             builder.Services.AddScoped<IJwtRepository, JwtRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             builder.Services.Configure<JwtSettings>(
                 builder.Configuration.GetSection("Jwt"));

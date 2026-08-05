@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Exceptions
 {
-    public class EmailAlreadyExistsException : Exception
+    public class AlreadyExistsException : Exception
     {
-        public EmailAlreadyExistsException()
-            : base("Email Already Exists") { }
+        public AlreadyExistsException(string entity)
+            : base($"{entity} Already Exists") { }
     }
 }

@@ -36,7 +36,7 @@ namespace InvenPilot.API.Middleware
 
                 await context.Response.WriteAsJsonAsync(response);
             }
-            catch(EmailAlreadyExistsException ex)
+            catch(AlreadyExistsException ex)
             {
                 var response = new ErrorResponse
                 {
