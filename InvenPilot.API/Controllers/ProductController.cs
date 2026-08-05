@@ -1,4 +1,5 @@
 ﻿using InvenPilot.Application.Features.Products.Commands.CreateProduct;
+using InvenPilot.Application.Features.Products.Commands.UpdateProduct;
 using InvenPilot.Application.Features.Products.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,17 @@ namespace InvenPilot.API.Controllers
             return Ok(new
             {
                 Message = "Product Created Successfully",
+                Data = product
+            });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, ProductDTO productDTO)
+        {
+            var product = await mediator.Send(new UpdateProductCommand(id,productDTO));
+            return Ok(new
+            {
+                Message = "Product Updated Successfully",
                 Data = product
             });
         }

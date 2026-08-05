@@ -25,9 +25,25 @@ namespace InvenPilot.Infrastructure.Repositories
             await context.SaveChangesAsync();
         }
 
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
+            return await context.Products.FirstOrDefaultAsync(p => p.ID == id);
+        }
+
         public async Task<bool> isProductExistByNameAsync(string name)
         {
             return await context.Products.AnyAsync(p => p.Name == name);
+        }
+
+        public async Task<bool> IsProductExistByNameAsync(string name)
+        {
+            return await context.Products.AnyAsync(p => p.Name == name);
+        }
+
+        public async Task UpdateProductAsync(Product product)
+        {
+            context.Products.Update(product);
+            await context.SaveChangesAsync();
         }
     }
 }
