@@ -2,6 +2,7 @@
 using InvenPilot.Application.Features.Products.Commands.UpdateProduct;
 using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Features.Products.Queries.GetAllProducts;
+using InvenPilot.Application.Features.Products.Queries.GetProductById;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,13 @@ namespace InvenPilot.API.Controllers
         {
             var products = await mediator.Send(new GetAllProductsQuery());
             return Ok(products);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            var product = await mediator.Send(new GetProductByIdQuery(id));
+            return Ok(product);
         }
     }
 }

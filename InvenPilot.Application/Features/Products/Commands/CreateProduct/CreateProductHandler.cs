@@ -22,7 +22,7 @@ namespace InvenPilot.Application.Features.Products.Commands.CreateProduct
         public async Task<ProductResponseDTO> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             bool isProductExist =
-                await productRepository.isProductExistByNameAsync(request.productDTO.Name);
+                await productRepository.IsProductExistByNameAsync(request.productDTO.Name);
 
             if (isProductExist)
             {

@@ -27,10 +27,14 @@ namespace InvenPilot.Application.Features.Products.Commands.UpdateProduct
         public async Task<ProductResponseDTO> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var oldProduct = await productRepository.GetProductByIdAsync(request.id);
-
-            if(oldProduct.Name != request.productDTO.Name)
+            if (oldProduct == null)
             {
-                bool isNameExist = await productRepository.isProductExistByNameAsync(request.productDTO.Name);
+                throw new NotFoundException("Product", request.id);
+            }
+
+            if (oldProduct.Name != request.productDTO.Name)
+            {
+                bool isNameExist = await productRepository.IsProductExistByNameAsync(request.productDTO.Name);
                 if(isNameExist)
                 {
                     throw new AlreadyExistsException($"Product : {request.productDTO.Name}");
