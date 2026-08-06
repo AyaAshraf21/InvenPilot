@@ -20,7 +20,7 @@ namespace InvenPilot.Application.Features.Products.Queries.GetAllProducts
 
         public async Task<List<ProductResponseDTO>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await productRepository.GetAllProductsAsync();
+            var products = await productRepository.GetAllProductsAsync(request.page, request.perPage);
             List<ProductResponseDTO> result = new List<ProductResponseDTO>();
 
             foreach (var product in products)

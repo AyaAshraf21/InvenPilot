@@ -33,9 +33,9 @@ namespace InvenPilot.API.Controllers
         }
 
         [HttpGet("GetAllCategories")]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<IActionResult> GetAllCategories([FromQuery] int page, [FromQuery] int perPage)
         {
-            var categories = await mediator.Send(new GetAllCategoriesQuery());
+            var categories = await mediator.Send(new GetAllCategoriesQuery(page, perPage));
             return Ok(categories);
         }
 

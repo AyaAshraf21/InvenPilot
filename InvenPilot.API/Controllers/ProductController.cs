@@ -43,9 +43,9 @@ namespace InvenPilot.API.Controllers
         }
 
         [HttpGet("GetAllProducts")]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts([FromQuery]int page , [FromQuery]int perPage)
         {
-            var products = await mediator.Send(new GetAllProductsQuery());
+            var products = await mediator.Send(new GetAllProductsQuery(page , perPage));
             return Ok(products);
         }
 

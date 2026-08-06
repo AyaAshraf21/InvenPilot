@@ -46,9 +46,9 @@ namespace InvenPilot.Infrastructure.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<Product>> GetAllProductsAsync()
+        public async Task<List<Product>> GetAllProductsAsync(int page, int perPage)
         {
-            return await context.Products.ToListAsync();
+            return await context.Products.Skip((page - 1) * perPage).Take(perPage).ToListAsync();
         }
 
         public async Task DeleteProductAsync(Product product)

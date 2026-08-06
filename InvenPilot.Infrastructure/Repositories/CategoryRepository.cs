@@ -34,9 +34,9 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await context.Categories.AnyAsync(s => s.ID == id);
         }
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<Category>> GetAllCategoriesAsync(int page,int perPage)
         {
-            return await context.Categories.ToListAsync();
+            return await context.Categories.Skip((page - 1) * perPage).Take(perPage).ToListAsync();
         }
 
         public async Task<Category> GetCategoryByIdAsync(int id)
