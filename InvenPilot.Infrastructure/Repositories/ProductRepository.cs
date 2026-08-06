@@ -50,5 +50,11 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await context.Products.ToListAsync();
         }
+
+        public async Task DeleteProductAsync(Product product)
+        {
+            context.Products.Remove(product);
+            await context.SaveChangesAsync();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using InvenPilot.Application.Features.Products.Commands.CreateProduct;
+using InvenPilot.Application.Features.Products.Commands.DeleteProduct;
 using InvenPilot.Application.Features.Products.Commands.UpdateProduct;
 using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Features.Products.Queries.GetAllProducts;
@@ -53,6 +54,16 @@ namespace InvenPilot.API.Controllers
         {
             var product = await mediator.Send(new GetProductByIdQuery(id));
             return Ok(product);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            await mediator.Send(new DeleteProductCommand(id));
+            return Ok(new
+            {
+                Message = "Product Deleted Successfully"
+            });
         }
     }
 }
