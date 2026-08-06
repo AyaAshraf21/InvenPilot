@@ -45,5 +45,10 @@ namespace InvenPilot.Infrastructure.Repositories
             context.Products.Update(product);
             await context.SaveChangesAsync();
         }
+
+        public async Task<List<Product>> GetAllProductsAsync()
+        {
+            return await context.Products.ToListAsync();
+        }
     }
 }

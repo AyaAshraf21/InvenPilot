@@ -55,11 +55,12 @@ namespace InvenPilot.Application.Features.Products.Commands.UpdateProduct
 
             return new ProductResponseDTO
             {
-                Name = request.productDTO.Name,
-                Price = request.productDTO.Price,
-                Quantity = request.productDTO.Quantity,
-                Description = request.productDTO.Description,
-                CategoryId = request.productDTO.CategoryId,
+                ID = oldProduct.ID,
+                Name = oldProduct.Name,
+                Price = oldProduct.Price,
+                Quantity = oldProduct.Quantity,
+                Description = oldProduct.Description,
+                CategoryId = oldProduct.CategoryId,
             };
         }
     }

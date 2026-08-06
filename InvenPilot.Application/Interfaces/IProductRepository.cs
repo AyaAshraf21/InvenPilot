@@ -14,5 +14,6 @@ namespace InvenPilot.Application.Interfaces
         public Task UpdateProductAsync(Product product);
         public Task<Product> GetProductByIdAsync(int id);
         public Task<bool> IsProductExistByNameAsync(string name);
+        public Task<List<Product>> GetAllProductsAsync();
     }
 }
