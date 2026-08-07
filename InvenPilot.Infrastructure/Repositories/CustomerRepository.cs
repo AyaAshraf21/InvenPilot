@@ -1,4 +1,6 @@
-﻿using InvenPilot.Application.Interfaces;
+﻿using InvenPilot.Application.Features.Categories.DTO;
+using InvenPilot.Application.Features.Customers.DTO;
+using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
 using InvenPilot.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +19,44 @@ namespace InvenPilot.Infrastructure.Repositories
         public CustomerRepository(InvenPilotContext context)
         {
             this.context = context;
+        }
+
+        public async Task<List<Customer>> GetAllCustomers(CustomerQueryParameters customerQueryParameters)
+        {
+            var query = context.Customers.AsQueryable();
+
+            //search
+            if (!string.IsNullOrWhiteSpace(customerQueryParameters.Search))
+            {
+                query = query.Where(c =>
+                    c.Name.Contains(customerQueryParameters.Search) ||
+                    c.Email.Contains(customerQueryParameters.Search) ||
+                    c.PhoneNumber.Contains(customerQueryParameters.Search));
+            }
+
+            //sorting
+
+            if (customerQueryParameters.SortBy?.ToLower() == "name")
+            {
+                if (customerQueryParameters.Desc)
+                {
+                    query = query.OrderByDescending(x => x.Name);
+                }
+                else
+                {
+                    query = query.OrderBy(x => x.Name);
+                }
+            }
+            else
+            {
+                query.OrderBy(x => x.ID);
+            }
+
+            //pagination
+            query = query.Skip((customerQueryParameters.Page - 1) * customerQueryParameters.PerPage)
+                         .Take(customerQueryParameters.PerPage);
+
+            return await query.ToListAsync();
         }
 
         public async Task<Customer> GetCustomerByIdAsync(int id)

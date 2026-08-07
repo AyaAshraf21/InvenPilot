@@ -1,4 +1,5 @@
-﻿using InvenPilot.Domain.Entities;
+﻿using InvenPilot.Application.Features.Customers.DTO;
+using InvenPilot.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace InvenPilot.Application.Interfaces
         public Task<Customer> GetCustomerByIdAsync(int id);
         public Task<bool> IsCustomerExistByPhoneAsync(string phone);
         public Task<bool> IsCustomerExistByEmailAsync(string email);
+        public Task<List<Customer>> GetAllCustomers(CustomerQueryParameters customerQueryParameters);
     }
 }
