@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Interfaces;
+﻿using InvenPilot.Application.Features.Categories.DTO;
+using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
 using InvenPilot.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -34,9 +35,38 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await context.Categories.AnyAsync(s => s.ID == id);
         }
-        public async Task<List<Category>> GetAllCategoriesAsync(int page,int perPage)
+        public async Task<List<Category>> GetAllCategoriesAsync(CategoryQueryParameters categoryQueryParameters)
         {
-            return await context.Categories.Skip((page - 1) * perPage).Take(perPage).ToListAsync();
+            var query = context.Categories.AsQueryable();
+
+            // search
+            if (!string.IsNullOrWhiteSpace(categoryQueryParameters.Search))
+            {
+                query = query.Where(x => x.Name.Contains(categoryQueryParameters.Search));
+            }
+
+            // sorting
+            if (categoryQueryParameters.SortBy?.ToLower() == "name") 
+            {
+                if (categoryQueryParameters.Desc)
+                {
+                    query = query.OrderByDescending(x => x.Name);
+                }
+                else
+                {
+                    query = query.OrderBy(x => x.Name);
+                }
+            }
+            else
+            {
+                query.OrderBy(x => x.ID);
+            }
+
+                //pagination
+                query = query.Skip((categoryQueryParameters.Page - 1) * categoryQueryParameters.PerPage)
+                                  .Take(categoryQueryParameters.PerPage);
+
+            return await query.ToListAsync();
         }
 
         public async Task<Category> GetCategoryByIdAsync(int id)

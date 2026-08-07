@@ -1,4 +1,5 @@
-﻿using InvenPilot.Domain.Entities;
+﻿using InvenPilot.Application.Features.Categories.DTO;
+using InvenPilot.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace InvenPilot.Application.Interfaces
         public Task CreateCategoryAsync(Category category);
         public Task<bool> isCategoryExistByNameAsync(string categoryName);
         public Task<bool> isCategoryExistByIdAsync(int id);
-        public Task<List<Category>> GetAllCategoriesAsync(int page, int perPage);
+        public Task<List<Category>> GetAllCategoriesAsync(CategoryQueryParameters categoryQueryParameters);
         public Task<Category> GetCategoryByIdAsync(int id);
         public Task UpdateCategory(Category category);
         public Task DeleteCategoryAsync(Category category);
