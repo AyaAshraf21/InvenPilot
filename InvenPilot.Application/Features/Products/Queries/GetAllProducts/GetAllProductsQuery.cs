@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Features.Products.Queries.GetAllProducts
 {
-    public record GetAllProductsQuery(int page, int perPage) : IRequest<List<ProductResponseDTO>>;
+    public record GetAllProductsQuery(ProductQueryParameters productQueryParameters) : IRequest<List<ProductResponseDTO>>;
 }

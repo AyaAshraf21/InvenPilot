@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Products.DTO;
+﻿using InvenPilot.Application.Exceptions;
+using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Interfaces;
 using MediatR;
 using System;
@@ -12,15 +13,27 @@ namespace InvenPilot.Application.Features.Products.Queries.GetAllProducts
     public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, List<ProductResponseDTO>>
     {
         private readonly IProductRepository productRepository;
+        private readonly ICategoryRepository categoryRepository;
 
-        public GetAllProductsHandler(IProductRepository productRepository)
+        public GetAllProductsHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             this.productRepository = productRepository;
+            this.categoryRepository = categoryRepository;
         }
 
         public async Task<List<ProductResponseDTO>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await productRepository.GetAllProductsAsync(request.page, request.perPage);
+            if (request.productQueryParameters.CategoryId.HasValue)
+            {
+                bool isCategoryExist =
+                    await categoryRepository.isCategoryExistByIdAsync(request.productQueryParameters.CategoryId.Value);
+
+                if (!isCategoryExist)
+                {
+                    throw new NotFoundException("Category", request.productQueryParameters.CategoryId.Value);
+                }
+            }
+            var products = await productRepository.GetAllProductsAsync(request.productQueryParameters);
             List<ProductResponseDTO> result = new List<ProductResponseDTO>();
 
             foreach (var product in products)

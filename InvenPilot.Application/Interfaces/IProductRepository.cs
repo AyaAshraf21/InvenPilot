@@ -1,4 +1,5 @@
-﻿using InvenPilot.Domain.Entities;
+﻿using InvenPilot.Application.Features.Products.DTO;
+using InvenPilot.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace InvenPilot.Application.Interfaces
         public Task UpdateProductAsync(Product product);
         public Task<Product> GetProductByIdAsync(int id);
         public Task<bool> IsProductExistByIDAsync(int id);
-        public Task<List<Product>> GetAllProductsAsync(int page, int perPage);
+        public Task<List<Product>> GetAllProductsAsync(ProductQueryParameters productQueryParameters);
         public Task DeleteProductAsync(Product product);
     }
 }
