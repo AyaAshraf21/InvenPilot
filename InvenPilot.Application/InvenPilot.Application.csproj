@@ -15,9 +15,4 @@
     <PackageReference Include="MediatR" Version="14.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Suppliers\Commands\" />
-    <Folder Include="Features\Suppliers\Validators\" />
-  </ItemGroup>
-
 </Project>

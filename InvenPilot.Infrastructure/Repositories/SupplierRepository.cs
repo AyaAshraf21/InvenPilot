@@ -21,6 +21,12 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
+        public async Task CreateSupplierAsync(Supplier supplier)
+        {
+            context.Suppliers.Add(supplier);
+            await context.SaveChangesAsync();
+        }
+
         public Task<List<Supplier>> GetAllSuppliersAsync(SupplierQueryParameters supplierQueryParameters)
         {
             var query = context.Suppliers.AsQueryable();

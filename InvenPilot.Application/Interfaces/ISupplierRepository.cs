@@ -14,5 +14,6 @@ namespace InvenPilot.Application.Interfaces
         public Task<bool> IsSupplierExistByPhoneAsync(string phone);
         public Task<bool> IsSupplierExistByEmailAsync(string email);
         public Task<List<Supplier>> GetAllSuppliersAsync(SupplierQueryParameters supplierQueryParameters);
+        public Task CreateSupplierAsync(Supplier supplier);
     }
 }

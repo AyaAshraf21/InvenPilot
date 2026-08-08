@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Suppliers.DTO;
+﻿using InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier;
+using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Application.Features.Suppliers.Queries.GetAllSuppliers;
 using InvenPilot.Application.Features.Suppliers.Queries.GetSupplierById;
 using MediatR;
@@ -30,6 +31,17 @@ namespace InvenPilot.API.Controllers
         {
             var suppliers = await mediator.Send(new GetAllSuppliersQuery(supplierQueryParameters));
             return Ok(suppliers);
+        }
+
+        [HttpPost("CreateSupplier")]
+        public async Task<IActionResult> CreateSupplier([FromBody] SupplierDTO supplierDTO)
+        {
+            var supplier = await mediator.Send(new CreateSupplierCommand(supplierDTO));
+            return Ok(new
+            {
+                Message = "Supplier Created Successfully.",
+                Data = supplier
+            });
         }
     }
 }
