@@ -1,4 +1,6 @@
-﻿using InvenPilot.Application.Features.Suppliers.Queries.GetSupplierById;
+﻿using InvenPilot.Application.Features.Suppliers.DTO;
+using InvenPilot.Application.Features.Suppliers.Queries.GetAllSuppliers;
+using InvenPilot.Application.Features.Suppliers.Queries.GetSupplierById;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +23,13 @@ namespace InvenPilot.API.Controllers
         {
             var supplier = await mediator.Send(new GetSupplierByIdQuery(id));
             return Ok(supplier);
+        }
+
+        [HttpGet("GetAllSuppliers")]
+        public async Task<IActionResult> GetAllSuppliers([FromQuery] SupplierQueryParameters supplierQueryParameters)
+        {
+            var suppliers = await mediator.Send(new GetAllSuppliersQuery(supplierQueryParameters));
+            return Ok(suppliers);
         }
     }
 }

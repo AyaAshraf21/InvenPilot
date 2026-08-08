@@ -1,4 +1,5 @@
-﻿using InvenPilot.Domain.Entities;
+﻿using InvenPilot.Application.Features.Suppliers.DTO;
+using InvenPilot.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace InvenPilot.Application.Interfaces
         public Task<Supplier> GetSupplierByIdAsync(int id);
         public Task<bool> IsSupplierExistByPhoneAsync(string phone);
         public Task<bool> IsSupplierExistByEmailAsync(string email);
+        public Task<List<Supplier>> GetAllSuppliersAsync(SupplierQueryParameters supplierQueryParameters);
     }
 }
