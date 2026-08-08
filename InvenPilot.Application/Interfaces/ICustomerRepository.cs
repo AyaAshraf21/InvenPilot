@@ -16,5 +16,6 @@ namespace InvenPilot.Application.Interfaces
         public Task<List<Customer>> GetAllCustomersAsync(CustomerQueryParameters customerQueryParameters);
         public Task CreateCustomerAsync(Customer customer);
         public Task UpdateCustomerAsync(Customer customer);
+        public Task DeleteCustomerAsync(Customer customer);
     }
 }

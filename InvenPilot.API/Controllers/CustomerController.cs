@@ -1,4 +1,5 @@
 ﻿using InvenPilot.Application.Features.Customers.Commands.CreateCustomer;
+using InvenPilot.Application.Features.Customers.Commands.DeleteCustomer;
 using InvenPilot.Application.Features.Customers.Commands.UpdateCustomer;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Customers.Queries.GetAllCustomers;
@@ -54,6 +55,16 @@ namespace InvenPilot.API.Controllers
             {
                 Message = "Customer Updated Successfully",
                 Data = customer
+            });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCustomer(int id)
+        {
+            await mediator.Send(new DeleteCustomerCommand(id));
+            return Ok(new
+            {
+                Message = "Customer Deleted Successfully."
             });
         }
 

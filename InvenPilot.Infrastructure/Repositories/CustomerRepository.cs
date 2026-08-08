@@ -85,5 +85,11 @@ namespace InvenPilot.Infrastructure.Repositories
             context.Customers.Update(customer);
             await context.SaveChangesAsync();
         }
+        
+        public async Task DeleteCustomerAsync(Customer customer)
+        {
+            context.Customers.Remove(customer);
+            await context.SaveChangesAsync();
+        }
     }
 }
