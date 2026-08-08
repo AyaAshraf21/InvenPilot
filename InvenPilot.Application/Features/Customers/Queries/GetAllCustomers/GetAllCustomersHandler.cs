@@ -23,7 +23,7 @@ namespace InvenPilot.Application.Features.Customers.Queries.GetAllCustomers
         {
             var customersList = new List<CustomerResponseDTO>();
 
-            var customers = await customerRepository.GetAllCustomers(request.customerQueryParameters);
+            var customers = await customerRepository.GetAllCustomersAsync(request.customerQueryParameters);
             foreach(var customer in customers)
             {
                 customersList.Add(new CustomerResponseDTO

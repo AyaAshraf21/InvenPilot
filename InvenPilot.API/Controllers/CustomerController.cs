@@ -1,4 +1,5 @@
 ﻿using InvenPilot.Application.Features.Customers.Commands.CreateCustomer;
+using InvenPilot.Application.Features.Customers.Commands.UpdateCustomer;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Customers.Queries.GetAllCustomers;
 using InvenPilot.Application.Features.Customers.Queries.GetCustomerById;
@@ -43,5 +44,18 @@ namespace InvenPilot.API.Controllers
                 Data = customer
             });
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCustomer(int id ,  [FromBody] CustomerDTO customerDTO)
+        {
+            var customer = await mediator.Send(new UpdateCustomerCommand(id, customerDTO));
+
+            return Ok(new
+            {
+                Message = "Customer Updated Successfully",
+                Data = customer
+            });
+        }
+
     }
 }

@@ -21,13 +21,13 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task CreateCustomer(Customer customer)
+        public async Task CreateCustomerAsync(Customer customer)
         {
             context.Customers.Add(customer);
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<Customer>> GetAllCustomers(CustomerQueryParameters customerQueryParameters)
+        public async Task<List<Customer>> GetAllCustomersAsync(CustomerQueryParameters customerQueryParameters)
         {
             var query = context.Customers.AsQueryable();
 
@@ -78,6 +78,12 @@ namespace InvenPilot.Infrastructure.Repositories
         public async Task<bool> IsCustomerExistByPhoneAsync(string phone)
         {
             return await context.Customers.AnyAsync(c => c.PhoneNumber == phone);
+        }
+
+        public async Task UpdateCustomerAsync(Customer customer)
+        {
+            context.Customers.Update(customer);
+            await context.SaveChangesAsync();
         }
     }
 }

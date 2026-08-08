@@ -41,7 +41,7 @@ namespace InvenPilot.Application.Features.Customers.Commands.CreateCustomer
                 Address = request.customerDTO.Address,
             };
 
-            await customerRepository.CreateCustomer(customer);
+            await customerRepository.CreateCustomerAsync(customer);
 
             return new CustomerResponseDTO
             {
