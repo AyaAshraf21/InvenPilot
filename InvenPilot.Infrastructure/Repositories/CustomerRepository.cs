@@ -21,6 +21,12 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
+        public async Task CreateCustomer(Customer customer)
+        {
+            context.Customers.Add(customer);
+            await context.SaveChangesAsync();
+        }
+
         public async Task<List<Customer>> GetAllCustomers(CustomerQueryParameters customerQueryParameters)
         {
             var query = context.Customers.AsQueryable();

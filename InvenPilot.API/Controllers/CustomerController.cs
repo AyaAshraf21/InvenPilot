@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Customers.DTO;
+﻿using InvenPilot.Application.Features.Customers.Commands.CreateCustomer;
+using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Customers.Queries.GetAllCustomers;
 using InvenPilot.Application.Features.Customers.Queries.GetCustomerById;
 using MediatR;
@@ -30,6 +31,17 @@ namespace InvenPilot.API.Controllers
         {
             var customers = await mediator.Send(new GetAllCustomersQuery(customerQueryParameters));
             return Ok(customers);
+        }
+
+        [HttpPost("CreateCustomer")]
+        public async Task<IActionResult> CreateCustomer([FromBody] CustomerDTO customerDTO)
+        {
+            var customer = await mediator.Send(new CreateCustomerCommand(customerDTO));
+            return Ok(new
+            {
+                Message = "Customer Created Successfully",
+                Data = customer
+            });
         }
     }
 }
