@@ -27,6 +27,12 @@ namespace InvenPilot.Infrastructure.Repositories
             await context.SaveChangesAsync();
         }
 
+        public async Task DeleteSupplierAsync(Supplier supplier)
+        {
+            context.Suppliers.Remove(supplier);
+            await context.SaveChangesAsync();
+        }
+
         public Task<List<Supplier>> GetAllSuppliersAsync(SupplierQueryParameters supplierQueryParameters)
         {
             var query = context.Suppliers.AsQueryable();

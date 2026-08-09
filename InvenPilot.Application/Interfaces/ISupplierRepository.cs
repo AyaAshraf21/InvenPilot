@@ -16,5 +16,6 @@ namespace InvenPilot.Application.Interfaces
         public Task<List<Supplier>> GetAllSuppliersAsync(SupplierQueryParameters supplierQueryParameters);
         public Task CreateSupplierAsync(Supplier supplier);
         public Task UpdateSupplierAsync(Supplier supplier);
+        public Task DeleteSupplierAsync(Supplier supplier);
     }
 }

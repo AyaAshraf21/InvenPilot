@@ -1,6 +1,7 @@
 ﻿using InvenPilot.Application.Features.Customers.Commands.UpdateCustomer;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier;
+using InvenPilot.Application.Features.Suppliers.Commands.DeleteSupplier;
 using InvenPilot.Application.Features.Suppliers.Commands.UpdateSupplier;
 using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Application.Features.Suppliers.Queries.GetAllSuppliers;
@@ -56,6 +57,16 @@ namespace InvenPilot.API.Controllers
             {
                 Message = "Supplier Updated Successfully",
                 Data = supplier
+            });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSupplier(int id)
+        {
+            await mediator.Send(new DeleteSupplierCommand(id));
+            return Ok(new
+            {
+                Message = "Supplier Deleted Successfully"
             });
         }
     }
