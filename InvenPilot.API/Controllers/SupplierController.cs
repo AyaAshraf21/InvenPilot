@@ -1,4 +1,7 @@
-﻿using InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier;
+﻿using InvenPilot.Application.Features.Customers.Commands.UpdateCustomer;
+using InvenPilot.Application.Features.Customers.DTO;
+using InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier;
+using InvenPilot.Application.Features.Suppliers.Commands.UpdateSupplier;
 using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Application.Features.Suppliers.Queries.GetAllSuppliers;
 using InvenPilot.Application.Features.Suppliers.Queries.GetSupplierById;
@@ -40,6 +43,18 @@ namespace InvenPilot.API.Controllers
             return Ok(new
             {
                 Message = "Supplier Created Successfully.",
+                Data = supplier
+            });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSupplier(int id, [FromBody] SupplierDTO supplierDTO)
+        {
+            var supplier = await mediator.Send(new UpdateSupplierCommand(id, supplierDTO));
+
+            return Ok(new
+            {
+                Message = "Supplier Updated Successfully",
                 Data = supplier
             });
         }

@@ -77,5 +77,11 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await context.Suppliers.AnyAsync(s => s.PhoneNumber == phone);
         }
+
+        public async Task UpdateSupplierAsync(Supplier supplier)
+        {
+            context.Suppliers.Update(supplier);
+            await context.SaveChangesAsync();
+        }
     }
 }
