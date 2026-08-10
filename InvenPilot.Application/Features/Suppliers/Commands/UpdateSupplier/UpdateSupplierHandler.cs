@@ -54,7 +54,7 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.UpdateSupplier
             supplier.PhoneNumber = request.supplierDTO.PhoneNumber;
             supplier.Address = request.supplierDTO.Address;
 
-            supplierRepository.UpdateSupplierAsync(supplier);
+            supplierRepository.UpdateSupplier(supplier);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
 

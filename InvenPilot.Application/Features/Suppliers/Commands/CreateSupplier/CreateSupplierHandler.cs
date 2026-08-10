@@ -46,7 +46,7 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier
                 Address = request.supplierDTO.Address,
             };
 
-            supplierRepository.CreateSupplierAsync(supplier);
+            supplierRepository.CreateSupplier(supplier);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new SupplierResponseDTO

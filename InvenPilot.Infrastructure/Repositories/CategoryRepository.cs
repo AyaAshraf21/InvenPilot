@@ -21,7 +21,7 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public void CreateCategoryAsync(Category category)
+        public void CreateCategory(Category category)
         {
             context.Categories.Add(category);
         }
@@ -78,7 +78,7 @@ namespace InvenPilot.Infrastructure.Repositories
             context.Categories.Update(category);
         }
 
-        public void DeleteCategoryAsync(Category category)
+        public void DeleteCategory(Category category)
         {
             context.Categories.Remove(category);
         }

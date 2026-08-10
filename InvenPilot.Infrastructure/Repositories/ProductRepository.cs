@@ -20,7 +20,7 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public void CreateProductAsync(Product product)
+        public void CreateProduct(Product product)
         {
             context.Products.Add(product);
         }
@@ -40,7 +40,7 @@ namespace InvenPilot.Infrastructure.Repositories
             return await context.Products.AnyAsync(p => p.Name == name);
         }
 
-        public void UpdateProductAsync(Product product)
+        public void UpdateProduct(Product product)
         {
             context.Products.Update(product);
         }
@@ -116,7 +116,7 @@ namespace InvenPilot.Infrastructure.Repositories
             return await query.ToListAsync();
         }
 
-        public void DeleteProductAsync(Product product)
+        public void DeleteProduct(Product product)
         {
             context.Products.Remove(product);
         }

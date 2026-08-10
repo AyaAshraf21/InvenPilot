@@ -43,7 +43,7 @@ namespace InvenPilot.Application.Features.Customers.Commands.CreateCustomer
                 Address = request.customerDTO.Address,
             };
 
-            customerRepository.CreateCustomerAsync(customer);
+            customerRepository.CreateCustomer(customer);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new CustomerResponseDTO

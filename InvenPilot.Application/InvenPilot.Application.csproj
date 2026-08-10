@@ -7,18 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\Orders\**" />
-    <EmbeddedResource Remove="Features\Orders\**" />
-    <None Remove="Features\Orders\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\InvenPilot.Domain\InvenPilot.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.1.1" />
     <PackageReference Include="MediatR" Version="14.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Orders\Queries\" />
   </ItemGroup>
 
 </Project>

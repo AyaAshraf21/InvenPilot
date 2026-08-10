@@ -53,7 +53,7 @@ namespace InvenPilot.Application.Features.Customers.Commands.UpdateCustomer
             customer.PhoneNumber = request.customerDTO.PhoneNumber;
             customer.Address = request.customerDTO.Address;
 
-            customerRepository.UpdateCustomerAsync(customer);
+            customerRepository.UpdateCustomer(customer);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
 

@@ -28,7 +28,7 @@ namespace InvenPilot.Application.Features.Categories.Commands.DeleteCategory
                 throw new NotFoundException("Category", request.id);
             }
 
-            categoryRepository.DeleteCategoryAsync(category);
+            categoryRepository.DeleteCategory(category);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
         }

@@ -57,7 +57,7 @@ namespace InvenPilot.Application.Features.Products.Commands.UpdateProduct
             oldProduct.Description = request.productDTO.Description;
             oldProduct.CategoryId = request.productDTO.CategoryId;
 
-            productRepository.UpdateProductAsync(oldProduct);
+            productRepository.UpdateProduct(oldProduct);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new ProductResponseDTO

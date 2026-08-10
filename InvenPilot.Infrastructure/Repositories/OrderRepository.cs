@@ -18,7 +18,7 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public void CreateOrderAsync(Order order)
+        public void CreateOrder(Order order)
         {
             context.Orders.Add(order);
         }

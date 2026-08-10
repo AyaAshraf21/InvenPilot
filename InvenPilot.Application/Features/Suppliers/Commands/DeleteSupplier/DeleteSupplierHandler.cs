@@ -27,7 +27,7 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.DeleteSupplier
             {
                 throw new NotFoundException("Supplier", request.id);
             }
-            supplierRepository.DeleteSupplierAsync(supplier);
+            supplierRepository.DeleteSupplier(supplier);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
         }

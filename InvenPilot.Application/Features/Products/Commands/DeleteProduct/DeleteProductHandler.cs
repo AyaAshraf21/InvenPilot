@@ -27,7 +27,7 @@ namespace InvenPilot.Application.Features.Products.Commands.DeleteProduct
             {
                 throw new NotFoundException("Product", request.id);
             }
-            productRepository.DeleteProductAsync(product);
+            productRepository.DeleteProduct(product);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
         }

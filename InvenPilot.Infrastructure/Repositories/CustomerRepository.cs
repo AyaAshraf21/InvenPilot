@@ -21,7 +21,7 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public void CreateCustomerAsync(Customer customer)
+        public void CreateCustomer(Customer customer)
         {
             context.Customers.Add(customer);
         }
@@ -83,12 +83,12 @@ namespace InvenPilot.Infrastructure.Repositories
             return await context.Customers.AnyAsync(c => c.PhoneNumber == phone);
         }
 
-        public void UpdateCustomerAsync(Customer customer)
+        public void UpdateCustomer(Customer customer)
         {
             context.Customers.Update(customer);
         }
         
-        public void DeleteCustomerAsync(Customer customer)
+        public void DeleteCustomer(Customer customer)
         {
             context.Customers.Remove(customer);
         }

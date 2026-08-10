@@ -52,7 +52,7 @@ namespace InvenPilot.Application.Features.Products.Commands.CreateProduct
                 CategoryId = request.productDTO.CategoryId
             };
 
-            productRepository.CreateProductAsync(product);
+            productRepository.CreateProduct(product);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new ProductResponseDTO

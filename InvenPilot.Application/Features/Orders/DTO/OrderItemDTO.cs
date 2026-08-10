@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InvenPilot.Application.Interfaces
+namespace InvenPilot.Application.Features.Orders.DTO
 {
-    public interface IOrderRepository
+    public class OrderItemDTO
     {
-        public void CreateOrder(Order order);
+        public int Quantity { get; set; }
+        public int ProductID { get; set; }
     }
 }

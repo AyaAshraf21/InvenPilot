@@ -21,12 +21,12 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public void CreateSupplierAsync(Supplier supplier)
+        public void CreateSupplier(Supplier supplier)
         {
             context.Suppliers.Add(supplier);
         }
 
-        public void DeleteSupplierAsync(Supplier supplier)
+        public void DeleteSupplier(Supplier supplier)
         {
             context.Suppliers.Remove(supplier);
         }
@@ -86,7 +86,7 @@ namespace InvenPilot.Infrastructure.Repositories
             return await context.Suppliers.AnyAsync(s => s.PhoneNumber == phone);
         }
 
-        public void UpdateSupplierAsync(Supplier supplier)
+        public void UpdateSupplier(Supplier supplier)
         {
             context.Suppliers.Update(supplier);
         }

@@ -29,7 +29,7 @@ namespace InvenPilot.Application.Features.Customers.Commands.DeleteCustomer
                 throw new NotFoundException("Customer", request.id);
             }
 
-            customerRepository.DeleteCustomerAsync(customer);
+            customerRepository.DeleteCustomer(customer);
             await unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }

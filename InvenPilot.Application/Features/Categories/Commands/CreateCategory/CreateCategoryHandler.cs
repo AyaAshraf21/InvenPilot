@@ -35,7 +35,7 @@ namespace InvenPilot.Application.Features.Categories.Commands.CreateCategory
             {
                 Name = request.categoryDTO.Name
             };
-            categoryRepository.CreateCategoryAsync(category);
+            categoryRepository.CreateCategory(category);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new CategoryResponseDTO
