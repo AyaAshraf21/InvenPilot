@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Interfaces;
+﻿using InvenPilot.Application.Features.Orders.DTO;
+using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
 using InvenPilot.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +25,49 @@ namespace InvenPilot.Infrastructure.Repositories
             context.Orders.Add(order);
         }
 
-        public async Task<List<Order>> GetAllOrdersAsync()
+        public async Task<List<Order>> GetAllOrdersAsync(OrderQueryParameter orderQueryParameter)
         {
-            return await context.Orders.Include(o => o.OrderItems).ToListAsync();
+            var query = context.Orders.Include(x => x.OrderItems).AsQueryable();
+
+            if (orderQueryParameter.CustomerID.HasValue)
+            {
+                query = query.Where(x => x.CustomerID ==  orderQueryParameter.CustomerID.Value);
+            }
+
+            if (orderQueryParameter.SupplierID.HasValue)
+            {
+                query = query.Where(x => x.SupplierID ==  orderQueryParameter.SupplierID.Value);
+            }
+
+            if (orderQueryParameter.OrderType.HasValue)
+            {
+                query = query.Where(x => x.OrderType == orderQueryParameter.OrderType.Value);
+            }
+
+            if (orderQueryParameter.OrderStatus.HasValue)
+            {
+                query = query.Where(x => x.OrderStatus == orderQueryParameter.OrderStatus.Value);
+            }
+
+            if(orderQueryParameter.SortBy != null)
+            {
+                if(orderQueryParameter.SortBy?.ToLower() == "date")
+                {
+                    query = orderQueryParameter.Desc 
+                        ? query.OrderByDescending(x => x.OrderDate) 
+                        : query.OrderBy(x => x.OrderDate);
+
+                        
+                }
+                else
+                {
+                    query = query.OrderBy(x => x.ID);
+                }
+            }
+
+            query = query.Skip((orderQueryParameter.Page - 1) * orderQueryParameter.PerPage).Take(orderQueryParameter.PerPage);
+
+            return await query.ToListAsync();
         }
 
         public async Task<Order> GetOrderByIdAsync(int id)

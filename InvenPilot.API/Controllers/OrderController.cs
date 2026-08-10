@@ -38,9 +38,9 @@ namespace InvenPilot.API.Controllers
         }
 
         [HttpGet("GetAllOrders")]
-        public async Task<IActionResult> GetAllOrders()
+        public async Task<IActionResult> GetAllOrders([FromQuery] OrderQueryParameter orderQueryParameter)
         {
-            var orders = await mediator.Send(new GetAllOrdersQuery());
+            var orders = await mediator.Send(new GetAllOrdersQuery(orderQueryParameter));
             return Ok(orders);
         }
     }

@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Features.Orders.Queries.GetAllOrders
 {
-    public record GetAllOrdersQuery : IRequest<List<OrderResponseDTO>>;
+    public record GetAllOrdersQuery(OrderQueryParameter orderQueryParameters) : IRequest<List<OrderResponseDTO>>;
 }

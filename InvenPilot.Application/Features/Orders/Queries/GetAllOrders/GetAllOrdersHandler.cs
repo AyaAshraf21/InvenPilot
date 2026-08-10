@@ -20,7 +20,7 @@ namespace InvenPilot.Application.Features.Orders.Queries.GetAllOrders
 
         public async Task<List<OrderResponseDTO>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await orderRepository.GetAllOrdersAsync();
+            var orders = await orderRepository.GetAllOrdersAsync(request.orderQueryParameters);
 
             var ordersResponse = orders.Select(item => new OrderResponseDTO
             {

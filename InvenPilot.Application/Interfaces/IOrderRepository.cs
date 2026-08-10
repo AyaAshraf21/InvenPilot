@@ -1,4 +1,5 @@
-﻿using InvenPilot.Domain.Entities;
+﻿using InvenPilot.Application.Features.Orders.DTO;
+using InvenPilot.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,6 @@ namespace InvenPilot.Application.Interfaces
     {
         public void CreateOrder(Order order);
         public Task<Order> GetOrderByIdAsync(int id);
-        public Task<List<Order>> GetAllOrdersAsync();
+        public Task<List<Order>> GetAllOrdersAsync(OrderQueryParameter orderQueryParameter);
     }
 }
