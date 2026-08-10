@@ -24,6 +24,11 @@ namespace InvenPilot.Infrastructure.Repositories
             context.Orders.Add(order);
         }
 
+        public async Task<List<Order>> GetAllOrdersAsync()
+        {
+            return await context.Orders.Include(o => o.OrderItems).ToListAsync();
+        }
+
         public async Task<Order> GetOrderByIdAsync(int id)
         {
             return await context.Orders
