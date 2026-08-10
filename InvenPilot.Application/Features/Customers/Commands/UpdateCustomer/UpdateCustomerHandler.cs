@@ -13,10 +13,12 @@ namespace InvenPilot.Application.Features.Customers.Commands.UpdateCustomer
     public class UpdateCustomerHandler : IRequestHandler<UpdateCustomerCommand, CustomerResponseDTO>
     {
         private readonly ICustomerRepository customerRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UpdateCustomerHandler(ICustomerRepository customerRepository)
+        public UpdateCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
         {
             this.customerRepository = customerRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<CustomerResponseDTO> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
@@ -51,7 +53,9 @@ namespace InvenPilot.Application.Features.Customers.Commands.UpdateCustomer
             customer.PhoneNumber = request.customerDTO.PhoneNumber;
             customer.Address = request.customerDTO.Address;
 
-            await customerRepository.UpdateCustomerAsync(customer);
+            customerRepository.UpdateCustomerAsync(customer);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
 
             return new CustomerResponseDTO
             {

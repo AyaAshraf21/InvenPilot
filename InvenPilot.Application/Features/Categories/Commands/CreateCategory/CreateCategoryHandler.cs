@@ -14,10 +14,12 @@ namespace InvenPilot.Application.Features.Categories.Commands.CreateCategory
     public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, CategoryResponseDTO>
     {
         private readonly ICategoryRepository categoryRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public CreateCategoryHandler(ICategoryRepository categoryRepository)
+        public CreateCategoryHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
         {
             this.categoryRepository = categoryRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<CategoryResponseDTO> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
@@ -33,7 +35,9 @@ namespace InvenPilot.Application.Features.Categories.Commands.CreateCategory
             {
                 Name = request.categoryDTO.Name
             };
-            await categoryRepository.CreateCategoryAsync(category);
+            categoryRepository.CreateCategoryAsync(category);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
             return new CategoryResponseDTO
             {
                 ID = category.ID,

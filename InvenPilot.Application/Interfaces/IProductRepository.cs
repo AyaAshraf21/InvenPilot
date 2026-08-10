@@ -10,12 +10,13 @@ namespace InvenPilot.Application.Interfaces
 {
     public interface IProductRepository
     {
-        public Task CreateProductAsync(Product product);
+        public void CreateProductAsync(Product product);
         public Task<bool> IsProductExistByNameAsync(string name);
-        public Task UpdateProductAsync(Product product);
+        public void UpdateProductAsync(Product product);
         public Task<Product> GetProductByIdAsync(int id);
         public Task<bool> IsProductExistByIDAsync(int id);
         public Task<List<Product>> GetAllProductsAsync(ProductQueryParameters productQueryParameters);
-        public Task DeleteProductAsync(Product product);
+        public void DeleteProductAsync(Product product);
+        public Task<List<Product>> GetProductsByIdAsync(List<int> productIDs);
     }
 }

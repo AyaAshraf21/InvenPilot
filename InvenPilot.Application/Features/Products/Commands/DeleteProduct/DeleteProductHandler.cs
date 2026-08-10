@@ -12,10 +12,12 @@ namespace InvenPilot.Application.Features.Products.Commands.DeleteProduct
     public class DeleteProductHandler : IRequestHandler<DeleteProductCommand>
     {
         private IProductRepository productRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public DeleteProductHandler(IProductRepository productRepository)
+        public DeleteProductHandler(IProductRepository productRepository, IUnitOfWork unitOfWork)
         {
             this.productRepository = productRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
@@ -25,7 +27,9 @@ namespace InvenPilot.Application.Features.Products.Commands.DeleteProduct
             {
                 throw new NotFoundException("Product", request.id);
             }
-            await productRepository.DeleteProductAsync(product);
+            productRepository.DeleteProductAsync(product);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
         }
     }
 }

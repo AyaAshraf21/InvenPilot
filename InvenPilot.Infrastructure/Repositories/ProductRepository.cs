@@ -20,10 +20,9 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task CreateProductAsync(Product product)
+        public void CreateProductAsync(Product product)
         {
             context.Products.Add(product);
-            await context.SaveChangesAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
@@ -41,10 +40,9 @@ namespace InvenPilot.Infrastructure.Repositories
             return await context.Products.AnyAsync(p => p.Name == name);
         }
 
-        public async Task UpdateProductAsync(Product product)
+        public void UpdateProductAsync(Product product)
         {
             context.Products.Update(product);
-            await context.SaveChangesAsync();
         }
 
         public async Task<List<Product>> GetAllProductsAsync(ProductQueryParameters productQueryParameters)
@@ -118,10 +116,14 @@ namespace InvenPilot.Infrastructure.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task DeleteProductAsync(Product product)
+        public void DeleteProductAsync(Product product)
         {
             context.Products.Remove(product);
-            await context.SaveChangesAsync();
+        }
+
+        public async Task<List<Product>> GetProductsByIdAsync(List<int> productIDs)
+        {
+            return await context.Products.Where(p => productIDs.Contains(p.ID)).ToListAsync();
         }
     }
 }

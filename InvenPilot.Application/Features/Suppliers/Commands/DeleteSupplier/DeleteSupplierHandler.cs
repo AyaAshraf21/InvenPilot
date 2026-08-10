@@ -12,10 +12,12 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.DeleteSupplier
     public class DeleteSupplierHandler : IRequestHandler<DeleteSupplierCommand>
     {
         private readonly ISupplierRepository supplierRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public DeleteSupplierHandler(ISupplierRepository supplierRepository)
+        public DeleteSupplierHandler(ISupplierRepository supplierRepository, IUnitOfWork unitOfWork)
         {
             this.supplierRepository = supplierRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task Handle(DeleteSupplierCommand request, CancellationToken cancellationToken)
@@ -25,7 +27,9 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.DeleteSupplier
             {
                 throw new NotFoundException("Supplier", request.id);
             }
-            await supplierRepository.DeleteSupplierAsync(supplier);
+            supplierRepository.DeleteSupplierAsync(supplier);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
         }
     }
 }

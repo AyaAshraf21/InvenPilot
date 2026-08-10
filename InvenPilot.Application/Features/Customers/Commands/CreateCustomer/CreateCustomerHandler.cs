@@ -14,10 +14,12 @@ namespace InvenPilot.Application.Features.Customers.Commands.CreateCustomer
     public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, CustomerResponseDTO>
     {
         private readonly ICustomerRepository customerRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public CreateCustomerHandler(ICustomerRepository customerRepository)
+        public CreateCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
         {
             this.customerRepository = customerRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<CustomerResponseDTO> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
@@ -41,7 +43,8 @@ namespace InvenPilot.Application.Features.Customers.Commands.CreateCustomer
                 Address = request.customerDTO.Address,
             };
 
-            await customerRepository.CreateCustomerAsync(customer);
+            customerRepository.CreateCustomerAsync(customer);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new CustomerResponseDTO
             {

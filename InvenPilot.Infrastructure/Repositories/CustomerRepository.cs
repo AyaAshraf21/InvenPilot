@@ -21,10 +21,9 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task CreateCustomerAsync(Customer customer)
+        public void CreateCustomerAsync(Customer customer)
         {
             context.Customers.Add(customer);
-            await context.SaveChangesAsync();
         }
 
         public async Task<List<Customer>> GetAllCustomersAsync(CustomerQueryParameters customerQueryParameters)
@@ -74,22 +73,24 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await context.Customers.AnyAsync(c => c.Email == email);
         }
+        public async Task<bool> IsCustomerExistByIdAsync(int id)
+        {
+            return await context.Customers.AnyAsync(c => c.ID == id);
+        }
 
         public async Task<bool> IsCustomerExistByPhoneAsync(string phone)
         {
             return await context.Customers.AnyAsync(c => c.PhoneNumber == phone);
         }
 
-        public async Task UpdateCustomerAsync(Customer customer)
+        public void UpdateCustomerAsync(Customer customer)
         {
             context.Customers.Update(customer);
-            await context.SaveChangesAsync();
         }
         
-        public async Task DeleteCustomerAsync(Customer customer)
+        public void DeleteCustomerAsync(Customer customer)
         {
             context.Customers.Remove(customer);
-            await context.SaveChangesAsync();
         }
     }
 }

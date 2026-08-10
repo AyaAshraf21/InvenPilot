@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace InvenPilot.Application.Exceptions
 {
-    internal class BadRequestException
+    public class BadRequestException : Exception
     {
+        public BadRequestException(string message) : base(message) { }
     }
 }

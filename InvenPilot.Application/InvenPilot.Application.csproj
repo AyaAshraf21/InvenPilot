@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Orders\**" />
+    <EmbeddedResource Remove="Features\Orders\**" />
+    <None Remove="Features\Orders\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\InvenPilot.Domain\InvenPilot.Domain.csproj" />
   </ItemGroup>
 

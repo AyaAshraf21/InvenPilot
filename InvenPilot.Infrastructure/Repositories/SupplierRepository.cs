@@ -21,16 +21,14 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task CreateSupplierAsync(Supplier supplier)
+        public void CreateSupplierAsync(Supplier supplier)
         {
             context.Suppliers.Add(supplier);
-            await context.SaveChangesAsync();
         }
 
-        public async Task DeleteSupplierAsync(Supplier supplier)
+        public void DeleteSupplierAsync(Supplier supplier)
         {
             context.Suppliers.Remove(supplier);
-            await context.SaveChangesAsync();
         }
 
         public Task<List<Supplier>> GetAllSuppliersAsync(SupplierQueryParameters supplierQueryParameters)
@@ -78,16 +76,19 @@ namespace InvenPilot.Infrastructure.Repositories
         {
             return await context.Suppliers.AnyAsync(s => s.Email == email);
         }
+        public async Task<bool> IsSupplierExistByIdAsync(int id)
+        {
+            return await context.Suppliers.AnyAsync(s => s.ID == id);
+        }
 
         public async Task<bool> IsSupplierExistByPhoneAsync(string phone)
         {
             return await context.Suppliers.AnyAsync(s => s.PhoneNumber == phone);
         }
 
-        public async Task UpdateSupplierAsync(Supplier supplier)
+        public void UpdateSupplierAsync(Supplier supplier)
         {
             context.Suppliers.Update(supplier);
-            await context.SaveChangesAsync();
         }
     }
 }

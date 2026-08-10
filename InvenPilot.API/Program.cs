@@ -6,6 +6,7 @@ using InvenPilot.Application.Features.Authentication.Commands;
 using InvenPilot.Application.Features.Authentication.Validators;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
+using InvenPilot.Infrastructure;
 using InvenPilot.Infrastructure.Data;
 using InvenPilot.Infrastructure.Repositories;
 using MediatR;
@@ -41,6 +42,7 @@ namespace InvenPilot.API
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.Configure<JwtSettings>(
                 builder.Configuration.GetSection("Jwt"));

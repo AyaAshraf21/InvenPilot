@@ -14,7 +14,7 @@ namespace InvenPilot.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SupplierController : ControllerBase
+    public class SupplierController : ControllerBase 
     {
         private readonly IMediator mediator;
 

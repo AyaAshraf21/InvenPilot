@@ -12,10 +12,12 @@ namespace InvenPilot.Application.Features.Customers.Commands.DeleteCustomer
     public class DeleteCustomerHandler : IRequestHandler<DeleteCustomerCommand>
     {
         private readonly ICustomerRepository customerRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public DeleteCustomerHandler(ICustomerRepository customerRepository)
+        public DeleteCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
         {
             this.customerRepository = customerRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
@@ -27,7 +29,8 @@ namespace InvenPilot.Application.Features.Customers.Commands.DeleteCustomer
                 throw new NotFoundException("Customer", request.id);
             }
 
-            await customerRepository.DeleteCustomerAsync(customer);
+            customerRepository.DeleteCustomerAsync(customer);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

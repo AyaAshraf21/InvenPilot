@@ -17,11 +17,13 @@ namespace InvenPilot.Application.Features.Products.Commands.UpdateProduct
     {
         private readonly IProductRepository productRepository;
         private readonly ICategoryRepository categoryRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UpdateProductHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public UpdateProductHandler(IProductRepository productRepository, ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
         {
             this.productRepository = productRepository;
             this.categoryRepository = categoryRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<ProductResponseDTO> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -55,7 +57,8 @@ namespace InvenPilot.Application.Features.Products.Commands.UpdateProduct
             oldProduct.Description = request.productDTO.Description;
             oldProduct.CategoryId = request.productDTO.CategoryId;
 
-            await productRepository.UpdateProductAsync(oldProduct);
+            productRepository.UpdateProductAsync(oldProduct);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new ProductResponseDTO
             {

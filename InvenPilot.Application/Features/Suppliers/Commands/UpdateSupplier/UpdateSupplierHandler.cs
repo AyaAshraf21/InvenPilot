@@ -14,10 +14,12 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.UpdateSupplier
     public class UpdateSupplierHandler : IRequestHandler<UpdateSupplierCommand, SupplierResponseDTO>
     {
         private readonly ISupplierRepository supplierRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UpdateSupplierHandler(ISupplierRepository supplierRepository)
+        public UpdateSupplierHandler(ISupplierRepository supplierRepository, IUnitOfWork unitOfWork)
         {
             this.supplierRepository = supplierRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<SupplierResponseDTO> Handle(UpdateSupplierCommand request, CancellationToken cancellationToken)
@@ -52,7 +54,9 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.UpdateSupplier
             supplier.PhoneNumber = request.supplierDTO.PhoneNumber;
             supplier.Address = request.supplierDTO.Address;
 
-            await supplierRepository.UpdateSupplierAsync(supplier);
+            supplierRepository.UpdateSupplierAsync(supplier);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
 
             return new SupplierResponseDTO
             {

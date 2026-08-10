@@ -14,10 +14,12 @@ namespace InvenPilot.Application.Features.Categories.Commands.UpdateCategory
     public class UpdateCategoryHandler : IRequestHandler<UpdateCategoryCommand, CategoryResponseDTO>
     {
         private readonly ICategoryRepository categoryRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UpdateCategoryHandler(ICategoryRepository categoryRepository)
+        public UpdateCategoryHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
         {
             this.categoryRepository = categoryRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<CategoryResponseDTO> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
@@ -35,7 +37,8 @@ namespace InvenPilot.Application.Features.Categories.Commands.UpdateCategory
             }
 
             category.Name = request.categoryDTO.Name;
-            await categoryRepository.UpdateCategory(category);
+            categoryRepository.UpdateCategory(category);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new CategoryResponseDTO
             {

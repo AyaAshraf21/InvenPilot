@@ -8,6 +8,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,10 +17,12 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier
     public class CreateSupplierHandler : IRequestHandler<CreateSupplierCommand, SupplierResponseDTO>
     {
         private readonly ISupplierRepository supplierRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public CreateSupplierHandler(ISupplierRepository supplierRepository)
+        public CreateSupplierHandler(ISupplierRepository supplierRepository, IUnitOfWork unitOfWork)
         {
             this.supplierRepository = supplierRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<SupplierResponseDTO> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
@@ -43,7 +46,8 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier
                 Address = request.supplierDTO.Address,
             };
 
-            await supplierRepository.CreateSupplierAsync(supplier);
+            supplierRepository.CreateSupplierAsync(supplier);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new SupplierResponseDTO
             {

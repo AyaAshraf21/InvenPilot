@@ -10,13 +10,16 @@ namespace InvenPilot.Application.Features.Products.Commands.CreateProduct
     {
         private readonly IProductRepository productRepository;
         private readonly ICategoryRepository categoryRepository;
+        private readonly IUnitOfWork unitOfWork;
 
         public CreateProductHandler(
             IProductRepository productRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            IUnitOfWork unitOfWork)
         {
             this.productRepository = productRepository;
             this.categoryRepository = categoryRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task<ProductResponseDTO> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -49,7 +52,8 @@ namespace InvenPilot.Application.Features.Products.Commands.CreateProduct
                 CategoryId = request.productDTO.CategoryId
             };
 
-            await productRepository.CreateProductAsync(product);
+            productRepository.CreateProductAsync(product);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new ProductResponseDTO
             {

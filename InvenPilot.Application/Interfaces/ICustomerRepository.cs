@@ -13,9 +13,10 @@ namespace InvenPilot.Application.Interfaces
         public Task<Customer> GetCustomerByIdAsync(int id);
         public Task<bool> IsCustomerExistByPhoneAsync(string phone);
         public Task<bool> IsCustomerExistByEmailAsync(string email);
+        public Task<bool> IsCustomerExistByIdAsync(int id);
         public Task<List<Customer>> GetAllCustomersAsync(CustomerQueryParameters customerQueryParameters);
-        public Task CreateCustomerAsync(Customer customer);
-        public Task UpdateCustomerAsync(Customer customer);
-        public Task DeleteCustomerAsync(Customer customer);
+        public void CreateCustomerAsync(Customer customer);
+        public void UpdateCustomerAsync(Customer customer);
+        public void DeleteCustomerAsync(Customer customer);
     }
 }

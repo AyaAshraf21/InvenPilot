@@ -21,10 +21,9 @@ namespace InvenPilot.Infrastructure.Repositories
             this.context = context;
         }
 
-        public async Task CreateCategoryAsync(Category category)
+        public void CreateCategoryAsync(Category category)
         {
-            await context.Categories.AddAsync(category);
-            await context.SaveChangesAsync();
+            context.Categories.Add(category);
         }
         
         public async Task<bool> isCategoryExistByNameAsync(string categoryName)
@@ -74,16 +73,14 @@ namespace InvenPilot.Infrastructure.Repositories
             return await context.Categories.FirstOrDefaultAsync(c => c.ID == id);
         }
 
-        public async Task UpdateCategory(Category category)
+        public void UpdateCategory(Category category)
         {
             context.Categories.Update(category);
-            await context.SaveChangesAsync();
         }
 
-        public async Task DeleteCategoryAsync(Category category)
+        public void DeleteCategoryAsync(Category category)
         {
             context.Categories.Remove(category);
-            await context.SaveChangesAsync();
         }
     }
 }
