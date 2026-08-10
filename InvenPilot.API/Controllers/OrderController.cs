@@ -1,5 +1,6 @@
 ﻿using InvenPilot.Application.Features.Orders.Commands;
 using InvenPilot.Application.Features.Orders.DTO;
+using InvenPilot.Application.Features.Orders.Queries.GetOrderById;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,13 @@ namespace InvenPilot.API.Controllers
                 Message = "Order Created Successfully",
                 Data = order
             });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrderById(int id)
+        {
+            var order = await mediator.Send(new GetOrderByIdQuery(id));
+            return Ok(order);
         }
     }
 }

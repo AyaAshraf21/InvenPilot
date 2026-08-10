@@ -10,5 +10,6 @@ namespace InvenPilot.Application.Interfaces
     public interface IOrderRepository
     {
         public void CreateOrder(Order order);
+        public Task<Order> GetOrderByIdAsync(int id);
     }
 }
