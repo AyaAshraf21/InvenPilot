@@ -76,5 +76,10 @@ namespace InvenPilot.Infrastructure.Repositories
                 .Include(o => o.OrderItems)
                 .FirstOrDefaultAsync(o => o.ID == id);
         }
+
+        public void UpdateOrderStatus(Order order)
+        {
+            context.Orders.Update(order);
+        }
     }
 }

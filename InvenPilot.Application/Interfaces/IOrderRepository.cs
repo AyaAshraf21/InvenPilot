@@ -13,5 +13,6 @@ namespace InvenPilot.Application.Interfaces
         public void CreateOrder(Order order);
         public Task<Order> GetOrderByIdAsync(int id);
         public Task<List<Order>> GetAllOrdersAsync(OrderQueryParameter orderQueryParameter);
+        public void UpdateOrderStatus (Order order);
     }
 }

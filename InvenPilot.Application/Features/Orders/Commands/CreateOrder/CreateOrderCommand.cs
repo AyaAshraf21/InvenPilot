@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InvenPilot.Application.Features.Orders.Commands
+namespace InvenPilot.Application.Features.Orders.Commands.CreateOrder
 {
     public record CreateOrderCommand(OrderDTO orderDTO) : IRequest<OrderResponseDTO>;
 }

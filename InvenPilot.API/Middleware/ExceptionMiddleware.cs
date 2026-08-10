@@ -67,6 +67,17 @@ namespace InvenPilot.API.Middleware
                 await context.Response.WriteAsJsonAsync(response);
             }
 
+            catch(BadRequestException ex)
+            {
+                var response = new ErrorResponse
+                {
+                    StatusCode = 400,
+                    Message = ex.Message
+                };
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                await context.Response.WriteAsJsonAsync(response);
+            }
+
             catch (Exception ex)
             {
                 var response = new ErrorResponse

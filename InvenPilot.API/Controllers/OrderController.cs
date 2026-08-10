@@ -1,7 +1,10 @@
 ﻿using InvenPilot.Application.Features.Orders.Commands;
+using InvenPilot.Application.Features.Orders.Commands.CreateOrder;
+using InvenPilot.Application.Features.Orders.Commands.UpdateOrder;
 using InvenPilot.Application.Features.Orders.DTO;
 using InvenPilot.Application.Features.Orders.Queries.GetAllOrders;
 using InvenPilot.Application.Features.Orders.Queries.GetOrderById;
+using InvenPilot.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +45,17 @@ namespace InvenPilot.API.Controllers
         {
             var orders = await mediator.Send(new GetAllOrdersQuery(orderQueryParameter));
             return Ok(orders);
+        }
+
+        [HttpPut("{id}/{orderStatus}")]
+        public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatus orderStatus)
+        {
+            var order = await mediator.Send(new UpdateOrderCommand(id,orderStatus));
+            return Ok(new
+            {
+                Message = "Order Status Updated Successfully",
+                Data = order
+            });
         }
     }
 }
