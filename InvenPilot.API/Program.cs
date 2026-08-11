@@ -2,6 +2,7 @@
 using FluentValidation;
 using InvenPilot.API.Middleware;
 using InvenPilot.Application.Behaviors;
+using InvenPilot.Application.Common.Mapping;
 using InvenPilot.Application.Features.Authentication.Commands;
 using InvenPilot.Application.Features.Authentication.Validators;
 using InvenPilot.Application.Interfaces;
@@ -12,6 +13,7 @@ using InvenPilot.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace InvenPilot.API
 {
@@ -31,10 +33,16 @@ namespace InvenPilot.API
                 .AddEntityFrameworkStores<InvenPilotContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<MappingProfile>();
+            });
+
             builder.Services.AddMediatR(configuration =>
             {
                 configuration.RegisterServicesFromAssembly(typeof(RegisterUserHandler).Assembly);
             });
+
 
             builder.Services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             builder.Services.AddScoped<IJwtRepository, JwtRepository>();

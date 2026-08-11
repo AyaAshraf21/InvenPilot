@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
@@ -11,15 +12,18 @@ namespace InvenPilot.Application.Features.Products.Commands.CreateProduct
         private readonly IProductRepository productRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
         public CreateProductHandler(
             IProductRepository productRepository,
             ICategoryRepository categoryRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
             this.productRepository = productRepository;
             this.categoryRepository = categoryRepository;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<ProductResponseDTO> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -43,27 +47,12 @@ namespace InvenPilot.Application.Features.Products.Commands.CreateProduct
                 }
             }
 
-            var product = new Product
-            {
-                Name = request.productDTO.Name,
-                Description = request.productDTO.Description,
-                Price = request.productDTO.Price,
-                Quantity = request.productDTO.Quantity,
-                CategoryId = request.productDTO.CategoryId
-            };
+            var product = mapper.Map<Product>(request.productDTO);
 
             productRepository.CreateProduct(product);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new ProductResponseDTO
-            {
-                ID = product.ID,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                Quantity = product.Quantity,
-                CategoryId = product.CategoryId
-            };
+            return mapper.Map<ProductResponseDTO>(product);
         }
     }
 }

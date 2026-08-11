@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
@@ -18,12 +19,14 @@ namespace InvenPilot.Application.Features.Products.Commands.UpdateProduct
         private readonly IProductRepository productRepository;
         private readonly ICategoryRepository categoryRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public UpdateProductHandler(IProductRepository productRepository, ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        public UpdateProductHandler(IProductRepository productRepository, ICategoryRepository categoryRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.productRepository = productRepository;
             this.categoryRepository = categoryRepository;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<ProductResponseDTO> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -51,24 +54,12 @@ namespace InvenPilot.Application.Features.Products.Commands.UpdateProduct
                     throw new NotFoundException("Category", request.productDTO.CategoryId);
                 }
             }
-            oldProduct.Name = request.productDTO.Name;
-            oldProduct.Price = request.productDTO.Price;
-            oldProduct.Quantity = request.productDTO.Quantity;
-            oldProduct.Description = request.productDTO.Description;
-            oldProduct.CategoryId = request.productDTO.CategoryId;
+            mapper.Map(request.productDTO, oldProduct);
 
             productRepository.UpdateProduct(oldProduct);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new ProductResponseDTO
-            {
-                ID = oldProduct.ID,
-                Name = oldProduct.Name,
-                Price = oldProduct.Price,
-                Quantity = oldProduct.Quantity,
-                Description = oldProduct.Description,
-                CategoryId = oldProduct.CategoryId,
-            };
+            return mapper.Map<ProductResponseDTO>(oldProduct);
         }
     }
 }

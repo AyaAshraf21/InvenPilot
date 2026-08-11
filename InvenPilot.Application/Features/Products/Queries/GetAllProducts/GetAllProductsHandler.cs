@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Interfaces;
 using MediatR;
@@ -14,11 +15,13 @@ namespace InvenPilot.Application.Features.Products.Queries.GetAllProducts
     {
         private readonly IProductRepository productRepository;
         private readonly ICategoryRepository categoryRepository;
+        private readonly IMapper mapper;
 
-        public GetAllProductsHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
+        public GetAllProductsHandler(IProductRepository productRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             this.productRepository = productRepository;
             this.categoryRepository = categoryRepository;
+            this.mapper = mapper;
         }
 
         public async Task<List<ProductResponseDTO>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
@@ -34,21 +37,8 @@ namespace InvenPilot.Application.Features.Products.Queries.GetAllProducts
                 }
             }
             var products = await productRepository.GetAllProductsAsync(request.productQueryParameters);
-            List<ProductResponseDTO> result = new List<ProductResponseDTO>();
 
-            foreach (var product in products)
-            {
-                result.Add(new ProductResponseDTO
-                {
-                    ID = product.ID,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Quantity = product.Quantity,
-                    CategoryId = product.CategoryId,
-                    Description = product.Description,
-                });
-            }
-            return result;
+            return mapper.Map<List<ProductResponseDTO>>(products);
         }
     }
 }
