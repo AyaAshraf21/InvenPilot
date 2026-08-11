@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Features.Customers.DTO;
+using InvenPilot.Application.Features.Orders.DTO;
 using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Domain.Entities;
@@ -27,6 +28,11 @@ namespace InvenPilot.Application.Common.Mapping
 
             CreateMap<Category, CategoryResponseDTO>();
             CreateMap<CategoryDTO, Category>();
+
+            CreateMap<Order, OrderResponseDTO>();
+            CreateMap<OrderDTO, Order>();
+            CreateMap<OrderItem, OrderItemResponseDTO>();
+            CreateMap<OrderItemDTO, OrderItem>();
         }
     }
 }

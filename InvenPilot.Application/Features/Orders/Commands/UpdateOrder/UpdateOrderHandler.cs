@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Orders.DTO;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
@@ -16,11 +17,13 @@ namespace InvenPilot.Application.Features.Orders.Commands.UpdateOrder
         private readonly IOrderRepository orderRepository;
         private readonly IProductRepository productRepository;
         private readonly IUnitOfWork unitOfWork;
-        public UpdateOrderHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IProductRepository productRepository)
+        private readonly IMapper mapper;
+        public UpdateOrderHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IProductRepository productRepository, IMapper mapper)
         {
             this.orderRepository = orderRepository;
             this.unitOfWork = unitOfWork;
             this.productRepository = productRepository;
+            this.mapper = mapper;
         }
 
         public async Task<OrderResponseDTO> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
@@ -77,25 +80,15 @@ namespace InvenPilot.Application.Features.Orders.Commands.UpdateOrder
                     }
                     order.OrderStatus = OrderStatus.Cancelled;
                 }
+                else
+                {
+                    throw new BadRequestException("Invalid Order Status.");
+                }
             }
             orderRepository.UpdateOrderStatus(order);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new OrderResponseDTO
-            {
-                ID = order.ID,
-                OrderStatus = order.OrderStatus,
-                OrderDate = order.OrderDate,
-                OrderType = order.OrderType,
-                CustomerID = order.CustomerID,
-                SupplierID = order.SupplierID,
-                OrderItems = order.OrderItems.Select(item => new OrderItemResponseDTO
-                {
-                    ID = item.ProductID,
-                    ProductID = item.ProductID,
-                    Quantity = item.Quantity,
-                }).ToList()
-            };
+            return mapper.Map<OrderResponseDTO>(order);
         }
     }
 }

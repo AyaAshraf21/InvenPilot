@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Orders.DTO;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
@@ -19,18 +20,21 @@ namespace InvenPilot.Application.Features.Orders.Commands.CreateOrder
         private readonly ISupplierRepository supplierRepository;
         private readonly IProductRepository productRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
         public CreateOrderHandler(IOrderRepository orderRepository,
                                   ICustomerRepository customerRepository,
                                   ISupplierRepository supplierRepository,
                                   IProductRepository productRepository , 
-                                  IUnitOfWork unitOfWork)
+                                  IUnitOfWork unitOfWork,
+                                  IMapper mapper)
         {
             this.orderRepository = orderRepository;
             this.customerRepository = customerRepository;
             this.supplierRepository = supplierRepository;
             this.productRepository = productRepository;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<OrderResponseDTO> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -87,16 +91,11 @@ namespace InvenPilot.Application.Features.Orders.Commands.CreateOrder
                 }
             }
 
-            Order order = new Order
-            {
-                CustomerID = request.orderDTO.CustomerID,
-                SupplierID = request.orderDTO.SupplierID,
-                OrderDate = DateTime.UtcNow,
-                OrderStatus = OrderStatus.Pending,
-                OrderType = request.orderDTO.OrderType,
-            };
+            var order = mapper.Map<Order>(request.orderDTO);
+            order.OrderDate = DateTime.UtcNow;
+            order.OrderStatus = OrderStatus.Pending;
 
-            foreach(var item in request.orderDTO.OrderItems)
+            foreach (var item in request.orderDTO.OrderItems)
             {
                 var product = products.First(product => product.ID == item.ProductID);
                 order.OrderItems.Add(new OrderItem
@@ -121,22 +120,7 @@ namespace InvenPilot.Application.Features.Orders.Commands.CreateOrder
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new OrderResponseDTO
-            {
-                ID = order.ID,
-                OrderDate = order.OrderDate,
-                OrderStatus = order.OrderStatus,
-                OrderType = order.OrderType,
-                CustomerID = order.CustomerID,
-                SupplierID = order.SupplierID,
-
-                OrderItems = order.OrderItems.Select(i => new OrderItemResponseDTO
-                {
-                    ID = i.ID,
-                    ProductID = i.ProductID,
-                    Quantity = i.Quantity,
-                }).ToList()
-            };
+            return mapper.Map<OrderResponseDTO>(order);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Orders.DTO;
 using InvenPilot.Application.Interfaces;
 using MediatR;
@@ -13,10 +14,12 @@ namespace InvenPilot.Application.Features.Orders.Queries.GetOrderById
     public class GetOrderByIdHandler : IRequestHandler<GetOrderByIdQuery, OrderResponseDTO>
     {
         private readonly IOrderRepository orderRepository;
+        private readonly IMapper mapper;
 
-        public GetOrderByIdHandler(IOrderRepository orderRepository)
+        public GetOrderByIdHandler(IOrderRepository orderRepository, IMapper mapper)
         {
             this.orderRepository = orderRepository;
+            this.mapper = mapper;
         }
 
         public async Task<OrderResponseDTO> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
@@ -26,23 +29,7 @@ namespace InvenPilot.Application.Features.Orders.Queries.GetOrderById
             {
                 throw new NotFoundException("Order", request.id);
             }
-
-            var orderResponse = new OrderResponseDTO
-            {
-                ID = order.ID,
-                CustomerID = order.CustomerID,
-                SupplierID = order.SupplierID,
-                OrderDate = order.OrderDate,
-                OrderStatus = order.OrderStatus,
-                OrderType = order.OrderType,
-                OrderItems = order.OrderItems.Select(item => new OrderItemResponseDTO
-                {
-                    ID = item.ID,
-                    ProductID = item.ProductID,
-                    Quantity = item.Quantity,
-                }).ToList()
-            };
-            return orderResponse;
+            return mapper.Map<OrderResponseDTO>(order);
         }
     }
 }
