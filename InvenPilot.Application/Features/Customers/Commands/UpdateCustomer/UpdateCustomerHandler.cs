@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Interfaces;
 using MediatR;
@@ -14,11 +15,13 @@ namespace InvenPilot.Application.Features.Customers.Commands.UpdateCustomer
     {
         private readonly ICustomerRepository customerRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public UpdateCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
+        public UpdateCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.customerRepository = customerRepository;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<CustomerResponseDTO> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
@@ -48,23 +51,12 @@ namespace InvenPilot.Application.Features.Customers.Commands.UpdateCustomer
                 }
             }
 
-            customer.Name = request.customerDTO.Name;
-            customer.Email = request.customerDTO.Email;
-            customer.PhoneNumber = request.customerDTO.PhoneNumber;
-            customer.Address = request.customerDTO.Address;
-
+            mapper.Map(request.customerDTO, customer);
+            
             customerRepository.UpdateCustomer(customer);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-
-            return new CustomerResponseDTO
-            {
-                ID = customer.ID,
-                Name = customer.Name,
-                Email = customer.Email,
-                PhoneNumber = customer.PhoneNumber,
-                Address = customer.Address,
-            };
+            return mapper.Map<CustomerResponseDTO>(customer);
         }
     }
 }

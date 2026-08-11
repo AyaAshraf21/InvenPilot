@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Customers.DTO;
+﻿using AutoMapper;
+using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
 using MediatR;
@@ -13,10 +14,12 @@ namespace InvenPilot.Application.Features.Customers.Queries.GetAllCustomers
     public class GetAllCustomersHandler : IRequestHandler<GetAllCustomersQuery, List<CustomerResponseDTO>>
     {
         private readonly ICustomerRepository customerRepository;
+        private readonly IMapper mapper;
 
-        public GetAllCustomersHandler(ICustomerRepository customerRepository)
+        public GetAllCustomersHandler(ICustomerRepository customerRepository, IMapper mapper)
         {
             this.customerRepository = customerRepository;
+            this.mapper = mapper;
         }
 
         public async Task<List<CustomerResponseDTO>> Handle(GetAllCustomersQuery request, CancellationToken cancellationToken)
@@ -24,18 +27,8 @@ namespace InvenPilot.Application.Features.Customers.Queries.GetAllCustomers
             var customersList = new List<CustomerResponseDTO>();
 
             var customers = await customerRepository.GetAllCustomersAsync(request.customerQueryParameters);
-            foreach(var customer in customers)
-            {
-                customersList.Add(new CustomerResponseDTO
-                {
-                    ID = customer.ID,
-                    Name = customer.Name,
-                    PhoneNumber = customer.PhoneNumber,
-                    Address = customer.Address,
-                    Email = customer.Email,
-                });
-            }
-            return customersList;
+
+            return mapper.Map<List<CustomerResponseDTO>>(customers);
         }
     }
 }

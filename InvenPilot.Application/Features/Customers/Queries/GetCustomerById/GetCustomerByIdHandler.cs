@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Features.Categories.Queries.GetCategoryById;
 using InvenPilot.Application.Features.Customers.DTO;
@@ -15,10 +16,12 @@ namespace InvenPilot.Application.Features.Customers.Queries.GetCustomerById
     public class GetCustomerByIdHandler : IRequestHandler<GetCustomerByIdQuery, CustomerResponseDTO>
     {
         private readonly ICustomerRepository customerRepository;
+        private readonly IMapper mapper;
 
-        public GetCustomerByIdHandler(ICustomerRepository customerRepository)
+        public GetCustomerByIdHandler(ICustomerRepository customerRepository, IMapper mapper)
         {
             this.customerRepository = customerRepository;
+            this.mapper = mapper;
         }
 
         public async Task<CustomerResponseDTO> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
@@ -29,14 +32,8 @@ namespace InvenPilot.Application.Features.Customers.Queries.GetCustomerById
             {
                 throw new NotFoundException("Customer", request.id);
             }
-            return new CustomerResponseDTO
-            {
-                ID = customer.ID,
-                Name = customer.Name,
-                PhoneNumber = customer.PhoneNumber,
-                Address = customer.Address,
-                Email = customer.Email,
-            };
+
+            return mapper.Map<CustomerResponseDTO>(customer);
         }
 
     }

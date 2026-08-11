@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
@@ -15,11 +16,13 @@ namespace InvenPilot.Application.Features.Customers.Commands.CreateCustomer
     {
         private readonly ICustomerRepository customerRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public CreateCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
+        public CreateCustomerHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork , IMapper mapper)
         {
             this.customerRepository = customerRepository;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<CustomerResponseDTO> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
@@ -35,25 +38,12 @@ namespace InvenPilot.Application.Features.Customers.Commands.CreateCustomer
                 throw new AlreadyExistsException("Phone Number");
             }
 
-            var customer = new Customer
-            {
-                Name = request.customerDTO.Name,
-                Email = request.customerDTO.Email,
-                PhoneNumber = request.customerDTO.PhoneNumber,
-                Address = request.customerDTO.Address,
-            };
+            var customer = mapper.Map<Customer>(request.customerDTO);
 
             customerRepository.CreateCustomer(customer);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new CustomerResponseDTO
-            {
-                ID = customer.ID,
-                Name = customer.Name,
-                Email = customer.Email,
-                PhoneNumber = customer.PhoneNumber,
-                Address = customer.Address,
-            };
+            return mapper.Map<CustomerResponseDTO>(customer);
         }
     }
 }
