@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37111.16 d17.14
+VisualStudioVersion = 17.14.37111.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenPilot.API", "InvenPilot.API.csproj", "{9511A9A1-76AE-48BA-B99C-B734086401A4}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenPilot.Infrastructure", "..\InvenPilot.Infrastructure\InvenPilot.Infrastructure.csproj", "{1BAF70EB-9646-4B46-A1CA-22B0B528B035}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenPilot.Application", "..\InvenPilot.Application\InvenPilot.Application.csproj", "{56929391-174F-41C7-AE85-10079AA998F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvenPilot.Tests", "..\InvenPilot.Tests\InvenPilot.Tests.csproj", "{C7B6EAA4-6689-4AB2-97C1-BBC47BFC2F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{56929391-174F-41C7-AE85-10079AA998F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{56929391-174F-41C7-AE85-10079AA998F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{56929391-174F-41C7-AE85-10079AA998F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7B6EAA4-6689-4AB2-97C1-BBC47BFC2F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7B6EAA4-6689-4AB2-97C1-BBC47BFC2F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7B6EAA4-6689-4AB2-97C1-BBC47BFC2F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7B6EAA4-6689-4AB2-97C1-BBC47BFC2F6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
