@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Interfaces;
 using MediatR;
@@ -13,9 +14,11 @@ namespace InvenPilot.Application.Features.Categories.Queries.GetCategoryById
     public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategoryResponseDTO>
     {
         private readonly ICategoryRepository categoryRepository;
-        public GetCategoryByIdHandler(ICategoryRepository categoryRepository)
+        private readonly IMapper mapper;
+        public GetCategoryByIdHandler(ICategoryRepository categoryRepository, IMapper mapper)
         {
             this.categoryRepository = categoryRepository;
+            this.mapper = mapper;
         }
 
         public async Task<CategoryResponseDTO> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
@@ -27,11 +30,7 @@ namespace InvenPilot.Application.Features.Categories.Queries.GetCategoryById
             }
             var categoryFound = await categoryRepository.GetCategoryByIdAsync(request.id);
 
-            return new CategoryResponseDTO
-            {
-                ID = categoryFound.ID,
-                Name = categoryFound.Name,
-            };
+            return mapper.Map<CategoryResponseDTO>(categoryFound);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
@@ -15,11 +16,13 @@ namespace InvenPilot.Application.Features.Categories.Commands.UpdateCategory
     {
         private readonly ICategoryRepository categoryRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public UpdateCategoryHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        public UpdateCategoryHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.categoryRepository = categoryRepository;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<CategoryResponseDTO> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
@@ -36,15 +39,12 @@ namespace InvenPilot.Application.Features.Categories.Commands.UpdateCategory
                 throw new AlreadyExistsException($"{request.categoryDTO.Name} Category");
             }
 
-            category.Name = request.categoryDTO.Name;
+            mapper.Map(request.categoryDTO, category);
+            
             categoryRepository.UpdateCategory(category);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new CategoryResponseDTO
-            {
-                ID = category.ID,
-                Name = category.Name,
-            };
+            return mapper.Map<CategoryResponseDTO>(category);
         }
     }
 }

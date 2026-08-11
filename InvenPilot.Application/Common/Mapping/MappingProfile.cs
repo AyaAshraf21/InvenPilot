@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Features.Suppliers.DTO;
@@ -23,6 +24,9 @@ namespace InvenPilot.Application.Common.Mapping
 
             CreateMap<Customer, CustomerResponseDTO>();
             CreateMap<CustomerDTO, Customer>();
+
+            CreateMap<Category, CategoryResponseDTO>();
+            CreateMap<CategoryDTO, Category>();
         }
     }
 }

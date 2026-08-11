@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Categories.DTO;
+﻿using AutoMapper;
+using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Interfaces;
 using MediatR;
 using System;
@@ -12,20 +13,19 @@ namespace InvenPilot.Application.Features.Categories.Queries.GetAllCategories
     public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, List<CategoryResponseDTO>>
     {
         private readonly ICategoryRepository categoryRepository;
+        private readonly IMapper mapper;
 
-        public GetAllCategoriesHandler(ICategoryRepository categoryRepository)
+        public GetAllCategoriesHandler(ICategoryRepository categoryRepository, IMapper mapper)
         {
             this.categoryRepository = categoryRepository;
+            this.mapper = mapper;
         }
 
         public async Task<List<CategoryResponseDTO>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
             var categories = await categoryRepository.GetAllCategoriesAsync(request.categoryQueryParameters);
-            return categories.Select(c => new CategoryResponseDTO
-            {
-                ID = c.ID,
-                Name = c.Name,
-            }).ToList();
+
+            return mapper.Map<List<CategoryResponseDTO>>(categories);
         }
     }
 }
