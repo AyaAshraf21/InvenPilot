@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Suppliers.DTO;
@@ -18,11 +19,13 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier
     {
         private readonly ISupplierRepository supplierRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public CreateSupplierHandler(ISupplierRepository supplierRepository, IUnitOfWork unitOfWork)
+        public CreateSupplierHandler(ISupplierRepository supplierRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.supplierRepository = supplierRepository;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<SupplierResponseDTO> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
@@ -38,25 +41,13 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier
                 throw new AlreadyExistsException("Phone Number");
             }
 
-            var supplier = new Supplier
-            {
-                Name = request.supplierDTO.Name,
-                Email = request.supplierDTO.Email,
-                PhoneNumber = request.supplierDTO.PhoneNumber,
-                Address = request.supplierDTO.Address,
-            };
+            var supplier = mapper.Map<Supplier>(request.supplierDTO);
+            
 
             supplierRepository.CreateSupplier(supplier);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return new SupplierResponseDTO
-            {
-                ID = supplier.ID,
-                Name = supplier.Name,
-                Email = supplier.Email,
-                PhoneNumber = supplier.PhoneNumber,
-                Address = supplier.Address,
-            };
+            return mapper.Map<SupplierResponseDTO>(supplier);
         }
     }
 }

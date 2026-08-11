@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Application.Interfaces;
@@ -15,11 +16,13 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.UpdateSupplier
     {
         private readonly ISupplierRepository supplierRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public UpdateSupplierHandler(ISupplierRepository supplierRepository, IUnitOfWork unitOfWork)
+        public UpdateSupplierHandler(ISupplierRepository supplierRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.supplierRepository = supplierRepository;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<SupplierResponseDTO> Handle(UpdateSupplierCommand request, CancellationToken cancellationToken)
@@ -49,23 +52,12 @@ namespace InvenPilot.Application.Features.Suppliers.Commands.UpdateSupplier
                 }
             }
 
-            supplier.Name = request.supplierDTO.Name;
-            supplier.Email = request.supplierDTO.Email;
-            supplier.PhoneNumber = request.supplierDTO.PhoneNumber;
-            supplier.Address = request.supplierDTO.Address;
+            mapper.Map(request.supplierDTO, supplier);
 
             supplierRepository.UpdateSupplier(supplier);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-
-            return new SupplierResponseDTO
-            {
-                ID = supplier.ID,
-                Name = supplier.Name,
-                Email = supplier.Email,
-                PhoneNumber = supplier.PhoneNumber,
-                Address = supplier.Address,
-            };
+            return mapper.Map<SupplierResponseDTO>(supplier);
         }
     }
 }

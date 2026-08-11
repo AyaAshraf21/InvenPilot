@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Suppliers.DTO;
+﻿using AutoMapper;
+using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Application.Interfaces;
 using MediatR;
 using System;
@@ -12,10 +13,12 @@ namespace InvenPilot.Application.Features.Suppliers.Queries.GetAllSuppliers
     public class GetAllSuppliersHandler : IRequestHandler<GetAllSuppliersQuery, List<SupplierResponseDTO>>
     {
         private readonly ISupplierRepository supplierRepository;
+        private readonly IMapper mapper;
 
-        public GetAllSuppliersHandler(ISupplierRepository supplierRepository)
+        public GetAllSuppliersHandler(ISupplierRepository supplierRepository, IMapper mapper)
         {
             this.supplierRepository = supplierRepository;
+            this.mapper = mapper;
         }
 
         public async Task<List<SupplierResponseDTO>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
@@ -24,19 +27,7 @@ namespace InvenPilot.Application.Features.Suppliers.Queries.GetAllSuppliers
 
             var suppliers = await supplierRepository.GetAllSuppliersAsync(request.SupplierQueryParameters);
 
-            foreach(var supplier in suppliers)
-            {
-                suppliersList.Add(new SupplierResponseDTO
-                {
-                    ID = supplier.ID,
-                    Name = supplier.Name,
-                    Address = supplier.Address,
-                    Email = supplier.Email,
-                    PhoneNumber = supplier.PhoneNumber,
-                });
-            }
-
-            return suppliersList;
+            return mapper.Map<List<SupplierResponseDTO>>(suppliers);
         }
     }
 }

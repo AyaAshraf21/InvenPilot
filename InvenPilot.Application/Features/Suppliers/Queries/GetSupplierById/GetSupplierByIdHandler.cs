@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Exceptions;
+﻿using AutoMapper;
+using InvenPilot.Application.Exceptions;
 using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Application.Interfaces;
 using MediatR;
@@ -13,10 +14,12 @@ namespace InvenPilot.Application.Features.Suppliers.Queries.GetSupplierById
     public class GetSupplierByIdHandler : IRequestHandler<GetSupplierByIdQuery, SupplierResponseDTO>
     {
         private readonly ISupplierRepository supplierRepository;
+        private readonly IMapper mapper;
 
-        public GetSupplierByIdHandler(ISupplierRepository supplierRepository)
+        public GetSupplierByIdHandler(ISupplierRepository supplierRepository, IMapper mapper)
         {
             this.supplierRepository = supplierRepository;
+            this.mapper = mapper;
         }
 
         public async Task<SupplierResponseDTO> Handle(GetSupplierByIdQuery request, CancellationToken cancellationToken)
@@ -28,14 +31,7 @@ namespace InvenPilot.Application.Features.Suppliers.Queries.GetSupplierById
                 throw new NotFoundException("Supplier", request.id);
             }
 
-            return new SupplierResponseDTO
-            {
-                ID = supplier.ID,
-                Name = supplier.Name,
-                Address = supplier.Address,
-                Email = supplier.Email,
-                PhoneNumber = supplier.PhoneNumber,
-            };
+            return mapper.Map<SupplierResponseDTO>(supplier);
         }
     }
 }

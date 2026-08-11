@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InvenPilot.Application.Features.Products.DTO;
+using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace InvenPilot.Application.Common.Mapping
         {
             CreateMap<Product, ProductResponseDTO>();
             CreateMap<ProductDTO, Product>();
+            CreateMap<Supplier, SupplierResponseDTO>();
+            CreateMap<SupplierDTO, Supplier>();
         }
     }
 }
