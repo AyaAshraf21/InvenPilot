@@ -22,15 +22,14 @@ namespace InvenPilot.Application.Features.Categories.Queries.GetCategoryById
         }
 
         public async Task<CategoryResponseDTO> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
-        {
-            bool isFound = await categoryRepository.isCategoryExistByIdAsync(request.id);
-            if (!isFound)
+        {            
+            var category = await categoryRepository.GetCategoryByIdAsync(request.id);
+
+            if (category == null )
             {
                 throw new NotFoundException("Category", request.id);
             }
-            var categoryFound = await categoryRepository.GetCategoryByIdAsync(request.id);
-
-            return mapper.Map<CategoryResponseDTO>(categoryFound);
+            return mapper.Map<CategoryResponseDTO>(category);
         }
     }
 }
