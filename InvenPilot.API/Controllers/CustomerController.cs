@@ -1,10 +1,12 @@
-﻿using InvenPilot.Application.Features.Customers.Commands.CreateCustomer;
+﻿using InvenPilot.Application.Common.Authorization;
+using InvenPilot.Application.Features.Customers.Commands.CreateCustomer;
 using InvenPilot.Application.Features.Customers.Commands.DeleteCustomer;
 using InvenPilot.Application.Features.Customers.Commands.UpdateCustomer;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Customers.Queries.GetAllCustomers;
 using InvenPilot.Application.Features.Customers.Queries.GetCustomerById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +23,7 @@ namespace InvenPilot.API.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomerById(int id)
         {
@@ -28,6 +31,7 @@ namespace InvenPilot.API.Controllers
             return Ok(customer);
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("GetAllCustomers")]
         public async Task<IActionResult> GetAllCustomers([FromQuery] CustomerQueryParameters customerQueryParameters)
         {
@@ -35,6 +39,7 @@ namespace InvenPilot.API.Controllers
             return Ok(customers);
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpPost("CreateCustomer")]
         public async Task<IActionResult> CreateCustomer([FromBody] CustomerDTO customerDTO)
         {
@@ -46,6 +51,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomer(int id ,  [FromBody] CustomerDTO customerDTO)
         {
@@ -58,6 +64,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {

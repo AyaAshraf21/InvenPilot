@@ -1,10 +1,12 @@
-﻿using InvenPilot.Application.Features.Categories.Commands.CreateCategory;
+﻿using InvenPilot.Application.Common.Authorization;
+using InvenPilot.Application.Features.Categories.Commands.CreateCategory;
 using InvenPilot.Application.Features.Categories.Commands.DeleteCategory;
 using InvenPilot.Application.Features.Categories.Commands.UpdateCategory;
 using InvenPilot.Application.Features.Categories.DTO;
 using InvenPilot.Application.Features.Categories.Queries.GetAllCategories;
 using InvenPilot.Application.Features.Categories.Queries.GetCategoryById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +22,8 @@ namespace InvenPilot.API.Controllers
         {
             this.mediator = mediator;
         }
-            
+
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpPost("CreateCategory")]
         public async Task<IActionResult> CreateCategory([FromBody]CategoryDTO categoryDTO)
         {
@@ -32,6 +35,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("GetAllCategories")]
         public async Task<IActionResult> GetAllCategories([FromQuery] CategoryQueryParameters categoryQueryParameters)
         {
@@ -39,6 +43,7 @@ namespace InvenPilot.API.Controllers
             return Ok(categories);
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
@@ -46,6 +51,7 @@ namespace InvenPilot.API.Controllers
             return Ok(category);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory([FromBody] CategoryDTO categoryDTO, int id)
         {
@@ -57,6 +63,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {

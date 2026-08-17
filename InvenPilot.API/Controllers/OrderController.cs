@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Orders.Commands;
+﻿using InvenPilot.Application.Common.Authorization;
+using InvenPilot.Application.Features.Orders.Commands;
 using InvenPilot.Application.Features.Orders.Commands.CreateOrder;
 using InvenPilot.Application.Features.Orders.Commands.UpdateOrder;
 using InvenPilot.Application.Features.Orders.DTO;
@@ -6,6 +7,7 @@ using InvenPilot.Application.Features.Orders.Queries.GetAllOrders;
 using InvenPilot.Application.Features.Orders.Queries.GetOrderById;
 using InvenPilot.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +24,7 @@ namespace InvenPilot.API.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpPost("CreateOrder")]
         public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDTO)
         {
@@ -33,6 +36,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
@@ -40,6 +44,7 @@ namespace InvenPilot.API.Controllers
             return Ok(order);
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("GetAllOrders")]
         public async Task<IActionResult> GetAllOrders([FromQuery] OrderQueryParameter orderQueryParameter)
         {
@@ -47,6 +52,7 @@ namespace InvenPilot.API.Controllers
             return Ok(orders);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPut("{id}/{orderStatus}")]
         public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatus orderStatus)
         {

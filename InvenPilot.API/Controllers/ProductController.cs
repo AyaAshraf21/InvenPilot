@@ -1,10 +1,12 @@
-﻿using InvenPilot.Application.Features.Products.Commands.CreateProduct;
+﻿using InvenPilot.Application.Common.Authorization;
+using InvenPilot.Application.Features.Products.Commands.CreateProduct;
 using InvenPilot.Application.Features.Products.Commands.DeleteProduct;
 using InvenPilot.Application.Features.Products.Commands.UpdateProduct;
 using InvenPilot.Application.Features.Products.DTO;
 using InvenPilot.Application.Features.Products.Queries.GetAllProducts;
 using InvenPilot.Application.Features.Products.Queries.GetProductById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +22,7 @@ namespace InvenPilot.API.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpPost("CreateProduct")]
         public async Task<IActionResult> CreateProduct(ProductDTO productDTO)
         {
@@ -31,6 +34,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, ProductDTO productDTO)
         {
@@ -42,6 +46,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("GetAllProducts")]
         public async Task<IActionResult> GetAllProducts([FromQuery]ProductQueryParameters productQueryParameters)
         {
@@ -49,6 +54,7 @@ namespace InvenPilot.API.Controllers
             return Ok(products);
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
@@ -56,6 +62,7 @@ namespace InvenPilot.API.Controllers
             return Ok(product);
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {

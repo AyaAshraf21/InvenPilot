@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Features.Customers.Commands.UpdateCustomer;
+﻿using InvenPilot.Application.Common.Authorization;
+using InvenPilot.Application.Features.Customers.Commands.UpdateCustomer;
 using InvenPilot.Application.Features.Customers.DTO;
 using InvenPilot.Application.Features.Suppliers.Commands.CreateSupplier;
 using InvenPilot.Application.Features.Suppliers.Commands.DeleteSupplier;
@@ -7,6 +8,7 @@ using InvenPilot.Application.Features.Suppliers.DTO;
 using InvenPilot.Application.Features.Suppliers.Queries.GetAllSuppliers;
 using InvenPilot.Application.Features.Suppliers.Queries.GetSupplierById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +25,7 @@ namespace InvenPilot.API.Controllers
             this.mediator = mediator;
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSupplierById(int id)
         {
@@ -30,6 +33,7 @@ namespace InvenPilot.API.Controllers
             return Ok(supplier);
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpGet("GetAllSuppliers")]
         public async Task<IActionResult> GetAllSuppliers([FromQuery] SupplierQueryParameters supplierQueryParameters)
         {
@@ -37,6 +41,7 @@ namespace InvenPilot.API.Controllers
             return Ok(suppliers);
         }
 
+        [Authorize(Roles = $"{Roles.Admin},{Roles.Employee}")]
         [HttpPost("CreateSupplier")]
         public async Task<IActionResult> CreateSupplier([FromBody] SupplierDTO supplierDTO)
         {
@@ -48,6 +53,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSupplier(int id, [FromBody] SupplierDTO supplierDTO)
         {
@@ -60,6 +66,7 @@ namespace InvenPilot.API.Controllers
             });
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSupplier(int id)
         {

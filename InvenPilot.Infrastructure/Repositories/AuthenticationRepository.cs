@@ -1,4 +1,5 @@
-﻿using InvenPilot.Application.Interfaces;
+﻿using Azure.Core;
+using InvenPilot.Application.Interfaces;
 using InvenPilot.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -20,7 +21,24 @@ namespace InvenPilot.Infrastructure.Repositories
 
         public async Task<IdentityResult> RegisterAsync(ApplicationUser user, string password)
         {
-            return await userManager.CreateAsync(user, password);
+            var result = await userManager.CreateAsync(user, password);
+
+            if (!result.Succeeded)
+            {
+                return result;
+            }
+
+            if (user.Email == "admin@invenpilot.com" &&
+                password == "Admin@123")
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
+            else
+            {
+                await userManager.AddToRoleAsync(user, "Employee");
+            }
+
+            return result;
         }
 
         public async Task<bool> CheckPasswordAsync(ApplicationUser user , string password)
@@ -31,6 +49,11 @@ namespace InvenPilot.Infrastructure.Repositories
         public async Task<ApplicationUser> GetUserByEmailAsync(string email)
         {
             return await userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
+        {
+            return await userManager.AddToRoleAsync(user, role);
         }
     }
 }

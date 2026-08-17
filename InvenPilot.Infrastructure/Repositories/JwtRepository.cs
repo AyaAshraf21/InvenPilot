@@ -18,18 +18,29 @@ namespace InvenPilot.Infrastructure.Repositories
     public class JwtRepository : IJwtRepository
     {
         private readonly JwtSettings jwtSettings;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public JwtRepository(IOptions<JwtSettings> jwtSettings)
+        public JwtRepository(IOptions<JwtSettings> jwtSettings, UserManager<ApplicationUser> userManager)
         {
             this.jwtSettings = jwtSettings.Value;
+            this.userManager = userManager;
         }
 
         public async Task<string> GenerateToken(ApplicationUser user)
         {
+            var roles = await userManager.GetRolesAsync(user);
+
             var userClaims = new List<Claim>();
             userClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             userClaims.Add(new Claim(ClaimTypes.NameIdentifier,user.Id));
             userClaims.Add(new Claim(ClaimTypes.Email , user.Email));
+
+            foreach (var role in roles)
+            {
+                userClaims.Add(
+                    new Claim(ClaimTypes.Role, role)
+                );
+            }
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key));
 

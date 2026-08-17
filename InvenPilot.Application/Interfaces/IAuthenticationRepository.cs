@@ -13,5 +13,6 @@ namespace InvenPilot.Application.Interfaces
         public Task<IdentityResult> RegisterAsync(ApplicationUser user , string password);
         public Task<bool> CheckPasswordAsync(ApplicationUser user , string password);
         public Task<ApplicationUser> GetUserByEmailAsync(string email);
+        public Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
     }
 }
