@@ -10,13 +10,16 @@ The main goal of the project was not just to build CRUD endpoints, but to struct
 
 ## Features
 
-### Authentication
+### Authentication & Authorization
 
 * User registration
 * User login
 * JWT-based authentication
 * ASP.NET Core Identity
 * Secure password handling through Identity
+* Role-based authorization
+* Admin and Employee roles
+* Role-based access control for protected endpoints
 
 ### Products
 
@@ -382,8 +385,9 @@ This approach keeps large collections manageable and avoids returning unnecessar
 | ASP.NET Core 8          | Web API                 |
 | Entity Framework Core 8 | ORM                     |
 | SQL Server              | Database                |
-| ASP.NET Core Identity   | Authentication          |
+| ASP.NET Core Identity   | User and role management|          |
 | JWT                     | Authentication tokens   |
+| Role-Based Authorization| Access control          |
 | MediatR                 | CQRS / request handling |
 | FluentValidation        | Request validation      |
 | AutoMapper              | Object mapping          |
@@ -406,7 +410,7 @@ The project was built to practice:
 * Repository and Unit of Work patterns
 * Dependency Injection
 * Entity Framework Core
-* JWT authentication
+* JWT authentication and role-based authorization
 * FluentValidation
 * Centralized exception handling
 * DTO mapping with AutoMapper
@@ -422,7 +426,6 @@ The order workflow was designed specifically to demonstrate how business rules c
 
 Some areas that could be added in a future version include:
 
-* Role-based authorization
 * Refresh tokens
 * Structured application logging
 * Caching
