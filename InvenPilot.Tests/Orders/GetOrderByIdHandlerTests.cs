@@ -126,6 +126,7 @@ namespace InvenPilot.Tests.Orders
             Assert.Equal(order.OrderItems[1].ProductID, result.OrderItems[1].ProductID);
             Assert.Equal(order.OrderItems[1].Quantity, result.OrderItems[1].Quantity);
 
+            orderRepositoryMock.Verify(x => x.GetOrderByIdAsync(request.id), Times.Once);
         }
     }
 }
